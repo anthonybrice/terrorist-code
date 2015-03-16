@@ -20,4 +20,3 @@ cabal.sandbox.config
 
 # For emacs lisp
 *.elc
-
