@@ -1,0 +1,18 @@
+! Xresources file
+
+Emacs.pane.menubar.background: darkGrey
+Emacs.pane.menubar.foreground: black
+Emacs*menubar.margin: 0
+Emacs*shadowThickness: 1            
+
+URxvt*.transparent: true
+! URxvt*.shading: 0 to 99 darkens, 101 to 200 lightens
+URxvt*.shading: 170
+URxvt*.font: xft:inconsolata:antialias=true:13
+URxvt*.scrollstyle: plain
+URxvt*.scrollBar_right: True
+URxvt*.scrollBarFloating: True
+URxvt*.saveLines: 5000
+URxvt*.internalBorder: 5
+URxvt*.cursorBlink: False
+URxvt*.depth: 32
