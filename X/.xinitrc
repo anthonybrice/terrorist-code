@@ -20,13 +20,13 @@ fi
 # Arch wiki says this helps Java programs
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-# I don't know what this does
 xrdb -merge .Xresources
 
 # Set the background image and the mouse pointer
 feh --bg-fill /home/anthony/Pictures/beach.png
 xsetroot -cursor_name left_ptr -bg "#bae4ee"
 
+# Display a systemtray in the top-right
 trayer --edge top --align right --SetDockType true --SetPartialStrut true \
        --expand true --width 10 --height 30 --transparent true --alpha 255 &
 
@@ -37,11 +37,14 @@ export SSH_AUTH_SOCK
 
 ## Autostart
 # Start the screen locker and the program that makes it turn on after suspend
-isavailable xscreensaver && xscreensaver -no-splash &
-isavailable xss-lock && xss-lock -- xscreensaver-command -lock &
+#isavailable xscreensaver && xscreensaver -no-splash &
+#isavailable xss-lock && xss-lock -- xscreensaver-command -lock &
 
 # Start redshift
 #isavailable redshift && redshift -l 34.11:-118.41 &
+
+# Start urxvt daemon
+urxvtd -q -f -o
 
 # Start the window manager
 exec xmonad

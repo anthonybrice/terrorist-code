@@ -1,18 +1,95 @@
 ! Xresources file
 
-Emacs.pane.menubar.background: darkGrey
-Emacs.pane.menubar.foreground: black
+Xft.antialias: 1
+Xft.autohint: 0
+Xft.dpi: 100
+Xft.hinting: 1
+Xft.hintstyle: hintfull
+Xft.lcdfilter: lcddefault
+Xft.rgba: rgb
+
+Emacs*.pane.menubar.background: darkGrey
+Emacs*.pane.menubar.foreground: black
 Emacs*menubar.margin: 0
-Emacs*shadowThickness: 1            
+Emacs*shadowThickness: 1
+Emacs*.font: inconsolatazi4
 
 URxvt*.transparent: true
 ! URxvt*.shading: 0 to 99 darkens, 101 to 200 lightens
-URxvt*.shading: 170
-URxvt*.font: xft:inconsolata:antialias=true:13
+URxvt*.shading: 160
+URxvt*.font: xft:inconsolata:antialias=true:hinting=true:13
+URxvt*.boldFont: xft:inconsolata:antialias=true:hinting=true:13:style=bold
 URxvt*.scrollstyle: plain
 URxvt*.scrollBar_right: True
 URxvt*.scrollBarFloating: True
 URxvt*.saveLines: 5000
 URxvt*.internalBorder: 5
-URxvt*.cursorBlink: False
+! URxvt*.cursorBlink: False
 URxvt*.depth: 32
+URxvt*.secondaryScreen: 1
+URxvt*.secondaryScroll: 0
+URxvt*.urgentOnBell: true
+
+URxvt*.cursorColor: #aa2e00
+URxvt*.pointerColor: #aa2e00
+
+URxvt*.color0: #292929
+! black
+! Used as foreground color by htop against color2 and color
+
+URxvt*.color1: #aa2e00 
+! red
+
+URxvt*.color2: #00ff00 
+! green
+! Used by htop as background color of column headers
+
+URxvt*.color3: #5a440d 
+! yellow
+
+URxvt*.color4: #0000b5 
+! blue
+
+URxvt*.color5: #800080 
+! magenta
+
+URxvt*.color6: #00aaaa 
+! cyan
+!! Used by htop as background in several locations, and as foreground in
+!! a few others
+
+URxvt*.color7: #4d6066 
+! white
+
+Urxvt*.color8: #3e3e3e 
+! bright black
+
+URxvt*.color9: #b22222 
+! bright red
+
+URxvt*.color10: #4b6913 
+! bright green
+
+URxvt*.color11: #726012 
+! bright yellow
+
+URxvt*.color12: #006080 
+! bright blue
+
+URxvt*.color13: #aa00aa 
+! bright magenta
+
+URxvt*.color14: #005051 
+! bright cyan
+
+Urxvt*.color15: #4d6066 
+! bright white
+
+URxvt*.perl-ext-common: tabbedex
+URxvt*.tabbed.tabbar-fg: 0
+URxvt*.tabbed.tabbar-bg: 15
+URxvt*.tabbed.tab-fg: 15
+URxvt*.tabbed.tab-bg: 1
+URxvt*.tabbed.title-fg: 0
+URxvt*.tabbed.title-bg: 15
+URxvt*.tabbed.reopen-on-close: yes

@@ -28,7 +28,7 @@ Config { font = "xft:enriqueta:size=15:antialias=true:hinting=true:style=Bold"
                     -- , Run Com "uname" ["-s","-r"] "" 36000
                     Run Date "%a, %b %d, %Y | %l:%M %P" "date" 10
                     -- , Run Com "./bin/getVolume" [] "myVolume" 10
-                    , Run StdinReader
+                    , Run UnsafeStdinReader
                       -- Network activity monitor (dynamic interface resolution)
                     , Run DynNetwork     [ "--template" , "<dev>: <tx>kBps/<rx>kBps"
                                          , "--Low"      , "1000"       -- units: kB/s
@@ -64,5 +64,5 @@ Config { font = "xft:enriqueta:size=15:antialias=true:hinting=true:style=Bold"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %StdinReader% } %date% { %cpu% | %memory% | %dynnetwork%                                         "
+       , template = " %UnsafeStdinReader% } %date% { %cpu% | %memory% | %dynnetwork%                                         "
        }

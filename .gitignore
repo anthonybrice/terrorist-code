@@ -18,5 +18,9 @@ cabal.sandbox.config
 *.aux
 *.hp
 
+# For xmonad
+xmonad-x86_64-linux
+*.errors
+
 # For emacs lisp
 *.elc

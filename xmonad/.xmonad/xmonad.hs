@@ -16,6 +16,7 @@ import qualified XMonad.StackSet            as W
 
 -- For notifications
 import           Control.Applicative        ((<$>))
+import Control.Monad ((>=>))
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Util.NamedWindows
 import           XMonad.Util.Run
@@ -25,6 +26,8 @@ import XMonad.Layout.ResizableTile
 
 -- For cycling through workspaces
 import XMonad.Actions.CycleWS
+
+import XMonad.Hooks.FadeInactive
 
 import Data.List (isInfixOf)
 import Data.List.Utils (replace)
@@ -48,7 +51,7 @@ currentWindowColor = "#aa2e00"
 -- Custom PP, configure it as you like. It determines what is being
 -- written to the bar.
 myPP = xmobarPP { ppCurrent = xmobarColor currentWindowColor "" . wrap "<" ">"
-                , ppTitle = xmobarColor currentWindowColor "" . shorten 62
+                , ppTitle = xmobarColor currentWindowColor "" . shorten 48
                 , ppSep = " | "
                 , ppHiddenNoWindows = namedOnly
                 , ppHidden = noScratchPad
@@ -66,7 +69,17 @@ myLayoutHook = ResizableTall 1 (3/100) (1/2) []
                ||| Mirror (Tall 1 (3/100) (1/2))
                ||| Full
 
-myTerminal = "urxvt"
+myTerminal = "urxvtc"
+
+xmobarEscape = concatMap doubleLts
+  where doubleLts '<' = "<<"
+        doubleLts x = [x]
+
+myWorkspaces :: [String]
+myWorkspaces = clickable . map xmobarEscape $ ["1","2","3","4","5","6","7","8","9"]
+  where clickable l = [ "<action=xdotool key Super+" ++ show n ++ ">"
+                        ++ ws ++ "</action>"
+                      | (i,ws) <- zip [1..9] l, let n = i]
 
 -- Main configuration, override the defaults to your liking
 myConfig = withUrgencyHook LibNotifyUrgencyHook $ defaultConfig
@@ -75,10 +88,13 @@ myConfig = withUrgencyHook LibNotifyUrgencyHook $ defaultConfig
   , startupHook = setWMName "LG3D"
   , layoutHook = smartBorders $ avoidStruts myLayoutHook
   , focusedBorderColor = currentWindowColor
-  , logHook = dynamicLogWithPP myPP
+  , logHook = do
+    dynamicLogWithPP myPP
+    --fadeInactiveLogHook 0.2
   , modMask = mod4Mask -- Rebind Mod to the Windows key
   , focusFollowsMouse = False
   , borderWidth = 3
+  , workspaces = myWorkspaces
   } `additionalKeysP`
   [ ("M4-S-z", spawn "xscreensaver-command -lock")
   , ("C-<Print>", spawn "sleep 0.2; scrot -s")
@@ -95,8 +111,8 @@ myConfig = withUrgencyHook LibNotifyUrgencyHook $ defaultConfig
   , ("<XF86AudioLowerVolume>", spawn "amixer set Master 10%-")
   , ("<XF86AudioMute>", spawn "amixer set Master toggle")
   , ("M4-u", focusUrgent)
-  , ("M4-<left>", prevWS)
-  , ("M4-<right>", nextWS)
+  , ("M4-<Left>", prevWS)
+  , ("M4-<Right>", nextWS)
   , ("M4-g", withFocused toggleBorder)
   ]
 
