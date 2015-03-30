@@ -3,18 +3,15 @@
 import           XMonad
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks
--- import XMonad.Layout.NoBorders
--- import XMonad.Util.Run(spawnPipe)
 import           XMonad.Util.EZConfig       (additionalKeysP)
-import           XMonad.Util.Scratchpad -- For quake-like terminal
--- import System.IO
--- import XMonad.Util.Dmenu
--- import Graphics.X11.ExtraTypes.XF86
--- import XMonad.Util.Dzen
+
+-- For quake-like terminal
+import           XMonad.Util.Scratchpad
 
 import           XMonad.Hooks.ManageHelpers
 import           XMonad.Hooks.SetWMName
 import           XMonad.Layout.NoBorders
+import XMonad.Actions.NoBorders
 import qualified XMonad.StackSet            as W
 
 -- For notifications
@@ -25,6 +22,12 @@ import           XMonad.Util.Run
 
 -- For resizable windows
 import XMonad.Layout.ResizableTile
+
+-- For cycling through workspaces
+import XMonad.Actions.CycleWS
+
+import Data.List (isInfixOf)
+import Data.List.Utils (replace)
 
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
 
@@ -42,17 +45,26 @@ myBar = "xmobar"
 
 currentWindowColor = "#aa2e00"
 
--- Custom PP, configure it as you like. It determines what is being written to the bar.
+-- Custom PP, configure it as you like. It determines what is being
+-- written to the bar.
 myPP = xmobarPP { ppCurrent = xmobarColor currentWindowColor "" . wrap "<" ">"
                 , ppTitle = xmobarColor currentWindowColor "" . shorten 62
                 , ppSep = " | "
+                , ppHiddenNoWindows = namedOnly
+                , ppHidden = noScratchPad
+                , ppUrgent = xmobarColor "#dc143c" "#f1f227" . pad
                 }
+  where
+    noScratchPad ws = if "NSP" `isInfixOf` ws then "" else ws
+    namedOnly ws = if any (`elem` ws) ['a' .. 'z'] then pad ws else ""
 
 -- Key bindings to toggle the gap for the bar.
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 
-myLayoutHook = ResizableTall 1 (3/100) (1/2) [] ||| Tall 1 (3/100) (1/2)
-               ||| Mirror (Tall 1 (3/100) (1/2)) ||| Full
+myLayoutHook = ResizableTall 1 (3/100) (1/2) []
+               ||| Tall 1 (3/100) (1/2)
+               ||| Mirror (Tall 1 (3/100) (1/2))
+               ||| Full
 
 myTerminal = "urxvt"
 
@@ -61,7 +73,7 @@ myConfig = withUrgencyHook LibNotifyUrgencyHook $ defaultConfig
   { terminal = myTerminal -- urxvt config in ~/.Xresources
   , manageHook = myManageHooks
   , startupHook = setWMName "LG3D"
-  , layoutHook = smartBorders $ avoidStruts $ myLayoutHook
+  , layoutHook = smartBorders $ avoidStruts myLayoutHook
   , focusedBorderColor = currentWindowColor
   , logHook = dynamicLogWithPP myPP
   , modMask = mod4Mask -- Rebind Mod to the Windows key
@@ -82,6 +94,10 @@ myConfig = withUrgencyHook LibNotifyUrgencyHook $ defaultConfig
   , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 10%+")
   , ("<XF86AudioLowerVolume>", spawn "amixer set Master 10%-")
   , ("<XF86AudioMute>", spawn "amixer set Master toggle")
+  , ("M4-u", focusUrgent)
+  , ("M4-<left>", prevWS)
+  , ("M4-<right>", nextWS)
+  , ("M4-g", withFocused toggleBorder)
   ]
 
 
@@ -95,12 +111,7 @@ myManageHooks = composeAll
 manageScratchPad :: ManageHook
 manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
   where
-    h = 0.1 -- terminal height, 10%
-    w = 1 -- terminal width, 100%
-    t = 1 - h -- distance from top edge 90%
-    l = 1 - w -- distance from left edge, 0%
-
--- myLogHook h = dynamicLogWithPP $ xmobarPP
---               { ppTitle = xmobarColor "green" "" . shorten 50
---               , ppOutput = hPutStrLn h
---               }
+    h = 1 -- terminal height, 100%
+    w = 0.4 -- terminal width, 40%
+    t = 0 -- distance from top edge, 0%
+    l = 0 -- distance from left edge, 0%
