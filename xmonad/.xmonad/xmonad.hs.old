@@ -1,7 +1,0 @@
-import XMonad
-
-main = xmonad defaultConfig
-       { terminal = "urvxt"
-       , modMask = mod4Mask
-       , borderWidth = 3
-       }
