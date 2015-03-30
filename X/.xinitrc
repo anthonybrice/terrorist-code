@@ -44,7 +44,7 @@ export SSH_AUTH_SOCK
 #isavailable redshift && redshift -l 34.11:-118.41 &
 
 # Start urxvt daemon
-urxvtd -q -f -o
+exec ./bin/urxvtcd
 
 # Start the window manager
 exec xmonad

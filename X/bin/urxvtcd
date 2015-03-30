@@ -1,0 +1,7 @@
+#!/bin/sh
+
+urxvtc "$@"
+if [ $? -eq 2 ]; then
+    urxvtcd -q -o -f
+    utxvtc "$@"
+fi
