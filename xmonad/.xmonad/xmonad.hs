@@ -51,7 +51,7 @@ currentWindowColor = "#aa2e00"
 -- Custom PP, configure it as you like. It determines what is being
 -- written to the bar.
 myPP = xmobarPP { ppCurrent = xmobarColor currentWindowColor "" . wrap "<" ">"
-                , ppTitle = xmobarColor currentWindowColor "" . shorten 48
+                , ppTitle = xmobarColor currentWindowColor "" . shorten 60
                 , ppSep = " | "
                 , ppHidden = noScratchPad
                 , ppUrgent = xmobarColor "#dc143c" "#f1f227" . pad

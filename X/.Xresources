@@ -58,10 +58,10 @@ URxvt*.color6: #00aaaa
 !! Used by htop as background in several locations, and as foreground in
 !! a few others
 
-URxvt*.color7: #4d6066 
+URxvt*.color7: #b2cce5
 ! white
 
-Urxvt*.color8: #3e3e3e 
+Urxvt*.color8: #6c7a89
 ! bright black
 
 URxvt*.color9: #b22222 
