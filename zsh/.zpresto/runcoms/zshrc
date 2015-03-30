@@ -1,0 +1,51 @@
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Customize to your needs...
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=10000
+SAVEHIST=10000
+bindkey -e
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/anthony/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+contains() {
+    string="$1"
+    substring="$2"
+    if test "${string#*$substring}" != "$string"
+    then
+        return 0    # $substring is in $string
+    else
+        return 1    # $substring is not in $string
+    fi
+}
+
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Print keys and values for zsh highlighting
+for k in "${(@k)ZSH_HIGHLIGHT_STYLES}"; do
+    # echo "$k -> $ZSH_HIGHLIGHT_STYLES[$k]"
+    ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=red,bold/fg=yellow,bold}
+    ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=green,bold/fg=red}
+    ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=green/fg=red,bold}
+    # echo "$k -> $ZSH_HIGHLIGHT_STYLES[$k]"
+done
+
