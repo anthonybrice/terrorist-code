@@ -17,7 +17,7 @@ fi
 # Editors
 #
 
-export EDITOR='nano'
+export EDITOR='emacs -nw --color=no'
 export VISUAL='nano'
 export PAGER='less'
 

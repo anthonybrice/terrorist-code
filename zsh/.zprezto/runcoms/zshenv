@@ -11,4 +11,4 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
 fi
 
 typeset -U path
-path=(~/bin ~/.guile ~/.cabal/bin)
+path=($path ~/bin ~/.guile ~/.cabal/bin)
