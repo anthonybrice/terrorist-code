@@ -2,6 +2,6 @@
 
 urxvtc "$@"
 if [ $? -eq 2 ]; then
-    urxvtcd -q -o -f
+    urxvtd -q -o -f
     utxvtc "$@"
 fi

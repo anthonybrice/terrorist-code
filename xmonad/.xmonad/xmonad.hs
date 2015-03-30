@@ -53,14 +53,11 @@ currentWindowColor = "#aa2e00"
 myPP = xmobarPP { ppCurrent = xmobarColor currentWindowColor "" . wrap "<" ">"
                 , ppTitle = xmobarColor currentWindowColor "" . shorten 48
                 , ppSep = " | "
-                --, ppHiddenNoWindows = namedOnly
                 , ppHidden = noScratchPad
                 , ppUrgent = xmobarColor "#dc143c" "#f1f227" . pad
                 }
   where
     noScratchPad ws = if "NSP" `isInfixOf` ws then "" else ws
-    -- 'namedOnly' is broken because of the action tags in every ws
-    --namedOnly ws = if any (`elem` ws) ['a' .. 'z'] then pad ws else ""
 
 -- Key bindings to toggle the gap for the bar.
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
@@ -70,7 +67,7 @@ myLayoutHook = ResizableTall 1 (3/100) (1/2) []
                ||| Mirror (Tall 1 (3/100) (1/2))
                ||| Full
 
-myTerminal = "urxvtc"
+myTerminal = "urxvtcd"
 
 xmobarEscape = concatMap doubleLts
   where doubleLts '<' = "<<"
