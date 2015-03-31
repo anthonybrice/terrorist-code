@@ -1,8 +1,6 @@
 Config { font = "xft:enriqueta:size=15:antialias=true:hinting=true:style=Bold"
        -- , bgColor = "#bae4ee"
        -- , fgColor = "black"
-       -- , additionalFonts =
-       --   [ "xft:Sorts Mill Goudy:size=15:antialias=true:hinting=true:style=Italic" ]
        , bgColor = "#BAE4EE"
        , fgColor = "#292929"
        -- , border = BottomB

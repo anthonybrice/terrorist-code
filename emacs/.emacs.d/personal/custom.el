@@ -9,54 +9,35 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(LaTeX-electric-left-right-brace nil)
- '(TeX-electric-escape nil)
- '(TeX-electric-math nil)
- '(TeX-insert-braces nil)
- '(ac-use-fuzzy t)
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
+ '(Custom-enabled-themes nil)
+ '(LaTeX-command-style (quote (("" "%(PDF)%(latex) %S%(PDFout)"))))
  '(ansi-color-names-vector
-   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+   ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
-    ("4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "31a01668c84d03862a970c471edbd377b2430868eccf5e8a9aec6831f1a0908d" "1297a022df4228b81bc0436230f211bad168a117282c20ddcba2db8c6a200743" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" default)))
- '(electric-indent-mode nil)
- '(electric-pair-mode nil)
- '(exec-path
-   (quote
-    ("/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/usr/lib/emacs/24.4/x86_64-unknown-linux-gnu" "/home/anthony/.cabal/bin")))
+    ("9dae95cdbed1505d45322ef8b5aa90ccb6cb59e0ff26fef0b8f411dfc416c552" default)))
  '(fci-rule-color "#383838")
  '(font-latex-fontify-script nil)
- '(font-latex-math-environments
-   (quote
-    ("display" "displaymath" "equation" "eqnarray" "gather" "multline" "align" "alignat" "xalignat" "xxalignat" "flalign" "IEEEeqnarray")))
+ '(global-hl-line-mode t)
  '(haskell-mode-hook
    (quote
-    (turn-on-haskell-doc
-     #[nil "\300\301!\207"
-           [run-hooks prelude-haskell-mode-hook]
-           2]
-     interactive-haskell-mode)))
- '(indent-tabs-mode nil)
+    (turn-on-haskell-doc turn-on-haskell-indentation
+                         (lambda nil
+                           (run-hooks
+                            (quote prelude-haskell-mode-hook))))))
+ '(hl-line-face (quote hl-line))
  '(js2-basic-offset 2)
- '(js3-auto-indent-p nil)
- '(js3-compact nil)
- '(js3-consistent-level-indent-inner-bracket t)
- '(js3-continued-expr-mult 0)
- '(js3-enter-indents-newline t)
- '(js3-global-externs (quote ("require" "process" "module")))
- '(js3-indent-dots t)
- '(js3-lazy-dots nil)
  '(menu-bar-mode t)
- '(nxml-child-indent 4)
- '(preview-scale-function 1.3)
- '(preview-transparent-color (quote (highlight :background)))
- '(sp-cancel-autoskip-on-backward-movement nil)
- '(tab-always-indent (quote complete))
- '(tab-stop-list nil)
- '(tab-width 4)
+ '(mlint-programs
+   (quote
+    ("mlint" "glnxa64/mlint" "/usr/local/MATLAB/R2014a/bin/glnxa64/mlint")))
+ '(prelude-whitespace nil)
+ '(safe-local-variable-values
+   (quote
+    ((haskell-process-use-ghci . t)
+     (haskell-indent-spaces . 4))))
+ '(sh-indentation 2)
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
    (quote
@@ -78,16 +59,7 @@
      (320 . "#8CD0D3")
      (340 . "#94BFF3")
      (360 . "#DC8CC3"))))
- '(vc-annotate-very-old-color "#DC8CC3")
- '(web-mode-code-indent-offset 2)
- '(web-mode-css-indent-offset 2)
- '(web-mode-enable-auto-closing t)
- '(web-mode-enable-auto-indentation nil)
- '(web-mode-enable-auto-opening t)
- '(web-mode-enable-auto-quoting t)
- '(web-mode-enable-engine-detection t)
- '(web-mode-markup-indent-offset 2)
- '(web-mode-sql-indent-offset 2))
+ '(vc-annotate-very-old-color "#DC8CC3"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

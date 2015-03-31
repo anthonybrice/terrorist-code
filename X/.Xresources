@@ -27,7 +27,7 @@ URxvt*.internalBorder: 5
 ! URxvt*.cursorBlink: False
 URxvt*.depth: 32
 URxvt*.secondaryScreen: 1
-URxvt*.secondaryScroll: 0
+URxvt*.secondaryScroll: 1
 URxvt*.urgentOnBell: true
 
 URxvt*.cursorColor: #aa2e00
@@ -92,4 +92,4 @@ URxvt*.tabbed.tab-fg: 15
 URxvt*.tabbed.tab-bg: 1
 URxvt*.tabbed.title-fg: 0
 URxvt*.tabbed.title-bg: 15
-URxvt*.tabbed.reopen-on-close: yes
+URxvt*.tabbed.reopen-on-close: no
