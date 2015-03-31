@@ -40,7 +40,7 @@ URxvt*.color0: #292929
 URxvt*.color1: #aa2e00 
 ! red
 
-URxvt*.color2: #00ff00 
+URxvt*.color2: #40806a
 ! green
 ! Used by htop as background color of column headers
 
