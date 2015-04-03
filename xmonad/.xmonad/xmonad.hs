@@ -4,21 +4,22 @@
 
 import           XMonad
 import           XMonad.Actions.CycleWS      (nextWS, prevWS)
-import           XMonad.Actions.NoBorders
+import           XMonad.Actions.NoBorders    (toggleBorder)
 import           XMonad.Hooks.DynamicLog
-import           XMonad.Hooks.ManageDocks
-import           XMonad.Hooks.ManageHelpers
-import           XMonad.Hooks.SetWMName
-import           XMonad.Hooks.UrgencyHook
-import           XMonad.Layout.NoBorders
-import           XMonad.Layout.ResizableTile
+import           XMonad.Hooks.ManageDocks    (avoidStruts, manageDocks)
+import           XMonad.Hooks.ManageHelpers  (doFullFloat, isDialog,
+                                              isFullscreen)
+import           XMonad.Hooks.SetWMName      (setWMName)
+import           XMonad.Hooks.UrgencyHook    (UrgencyHook (..), focusUrgent,
+                                              withUrgencyHook)
+import           XMonad.Layout.NoBorders     (smartBorders)
+import           XMonad.Layout.ResizableTile (MirrorResize (..),
+                                              ResizableTall (..))
 import qualified XMonad.StackSet             as W
 import           XMonad.Util.EZConfig        (additionalKeysP)
-import           XMonad.Util.NamedWindows
-import           XMonad.Util.Run
+import           XMonad.Util.NamedWindows    (getName)
 import           XMonad.Util.Scratchpad      (scratchpadManageHook,
                                               scratchpadSpawnActionTerminal)
-
 
 import           Control.Applicative         ((<$>))
 import           Data.List                   (isInfixOf)
@@ -111,7 +112,7 @@ myClientMask = structureNotifyMask .|. enterWindowMask .|. propertyChangeMask
                .|. focusChangeMask
 
 -- Main configuration, override the defaults to your liking
-myConfig = withUrgencyHook LibNotifyUrgencyHook $ defaultConfig
+myConfig = withUrgencyHook NotatrayUrgencyHook $ defaultConfig
   { terminal = myTerminal -- urxvt config in ~/.Xresources
   , manageHook = myManageHooks
   , startupHook = setWMName "LG3D"
