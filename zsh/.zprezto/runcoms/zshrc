@@ -11,8 +11,10 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
-alias ls='ls --color=auto'
+alias ls='ls --color=auto'colorsafe
 alias grep='grep --color=auto'
+
+alias -s tex=emacsclient
 
 # # The following lines were added by compinstall
 # zstyle :compinstall filename '/home/anthony/.zshrc'
