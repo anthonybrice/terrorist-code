@@ -38,6 +38,13 @@ import           Network.HTTP.Types          (methodPut)
 -- For handleEventHook
 import           Data.Monoid                 (All (..))
 
+-- Logging
+import           System.Log.Formatter
+import           System.Log.Handler          (setFormatter)
+import           System.Log.Handler.Simple
+import           System.Log.Handler.Syslog
+import           System.Log.Logger
+
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
 
 data LibNotifyUrgencyHook = LibNotifyUrgencyHook deriving (Read, Show)
@@ -57,13 +64,13 @@ instance UrgencyHook LibNotifyUrgencyHook where
     case initReq of
      Nothing -> return ()
      Just req -> do
-       let req' = (flip urlEncodedBody) req $
+       let req' = (flip urlEncodedBody) req
                   [ ("title", "xmonad")
                   , ("content", "XMONAD")
                   , ("icon", "xmonad.png")
                   , ("action", "echo hello from xmonad")
                   ]
-       response <- liftIO $ withManager $ httpLbs  req'
+       _ <- io $ withManager $ httpLbs  req'
        return ()
 
     -- Send notification to dbus

@@ -32,13 +32,14 @@
  '(font-latex-math-environments
    (quote
     ("display" "displaymath" "equation" "eqnarray" "gather" "multline" "align" "alignat" "xalignat" "xxalignat" "flalign" "IEEEeqnarray")))
+ '(haskell-doc-prettify-types t)
  '(haskell-mode-hook
    (quote
-    (turn-on-haskell-doc
+    (turn-on-haskell-decl-scan
      #[nil "\300\301!\207"
            [run-hooks prelude-haskell-mode-hook]
-           2]
-     interactive-haskell-mode)))
+           2])))
+ '(haskell-stylish-on-save t)
  '(indent-tabs-mode nil)
  '(js2-basic-offset 2)
  '(js3-auto-indent-p nil)
