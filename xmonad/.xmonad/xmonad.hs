@@ -1,5 +1,7 @@
 -- xmonad.hs
 
+{-# LANGUAGE OverloadedStrings #-}
+
 import           XMonad
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks
@@ -16,7 +18,6 @@ import qualified XMonad.StackSet            as W
 
 -- For notifications
 import           Control.Applicative        ((<$>))
-import Control.Monad ((>=>))
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Util.NamedWindows
 import           XMonad.Util.Run
@@ -30,7 +31,12 @@ import XMonad.Actions.CycleWS
 import XMonad.Hooks.FadeInactive
 
 import Data.List (isInfixOf)
-import Data.List.Utils (replace)
+
+import Network.HTTP.Conduit
+import Network.HTTP.Types (methodPut)
+--import Network.HTTP.Client
+
+import Data.Monoid(All(..))
 
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
 
@@ -41,6 +47,26 @@ instance UrgencyHook LibNotifyUrgencyHook where
     name <- getName w
     Just idx <- W.findTag w <$> gets windowset
 
+    -- Thanks, geekosaur! Register for focus events on this
+    -- window. We'll ask notatray to clear all notifications for this
+    -- window the next time it's focused.
+    withDisplay $ \d -> io $ selectInput d w myClientMask
+
+    -- POST notification to notatray
+    let initReq = parseUrl "http://localhost:3000/notification"
+    case initReq of
+     Nothing -> return ()
+     Just req -> do
+       let req' = (flip urlEncodedBody) req $
+                  [ ("title", "xmonad")
+                  , ("content", "XMONAD")
+                  , ("icon", "xmonad.png")
+                  , ("action", "echo hello from xmonad")
+                  ]
+       response <- liftIO $ withManager $ httpLbs  req'
+       return ()
+
+    -- Send notification to dbus
     safeSpawn "notify-send" [show name, "workspace " ++ idx]
 
 -- Command to launch the bar.
@@ -74,10 +100,15 @@ xmobarEscape = concatMap doubleLts
         doubleLts x = [x]
 
 myWorkspaces :: [String]
-myWorkspaces = clickable . map xmobarEscape $ ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces = clickable . map xmobarEscape $
+               ["1","2","3","4","5","6","7","8","9"]
   where clickable l = [ "<action=xdotool key Super+" ++ show n ++ ">"
                         ++ ws ++ "</action>"
                       | (i,ws) <- zip [1..9] l, let n = i]
+
+myClientMask :: EventMask
+myClientMask = structureNotifyMask .|. enterWindowMask .|. propertyChangeMask
+               .|. focusChangeMask
 
 -- Main configuration, override the defaults to your liking
 myConfig = withUrgencyHook LibNotifyUrgencyHook $ defaultConfig
@@ -86,11 +117,10 @@ myConfig = withUrgencyHook LibNotifyUrgencyHook $ defaultConfig
   , startupHook = setWMName "LG3D"
   , layoutHook = smartBorders $ avoidStruts myLayoutHook
   , focusedBorderColor = currentWindowColor
-  , logHook = do
-    dynamicLogWithPP myPP
-    --fadeInactiveLogHook 0.2
+  , logHook = dynamicLogWithPP myPP
   , modMask = mod4Mask -- Rebind Mod to the Windows key
   , focusFollowsMouse = False
+  , handleEventHook = myHandleEventHook
   , borderWidth = 3
   , workspaces = myWorkspaces
   } `additionalKeysP`
@@ -114,6 +144,8 @@ myConfig = withUrgencyHook LibNotifyUrgencyHook $ defaultConfig
   , ("M4-g", withFocused toggleBorder)
   ]
 
+myHandleEventHook :: Event -> X All
+myHandleEventHook e = return (All True)
 
 myManageHooks = composeAll
   [ isFullscreen --> doFullFloat
@@ -129,3 +161,23 @@ manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
     w = 0.4 -- terminal width, 40%
     t = 0 -- distance from top edge, 0%
     l = 0 -- distance from left edge, 0%
+
+
+-- 10:55 < antho_> Can anyone tell me if it's possible to modify the clientMask?
+-- 10:56 < geekosaur> not directly although you could conceivably hook something to register a
+--                    different one after the window's been through X.O.windows (this probably means a
+--                    layout modifier given its ordering)
+-- 10:58 < antho_> I see, thanks
+-- 10:58 -!- antho [~anthony@pool-71-189-186-98.lsanca.fios.verizon.net] has quit [Ping timeout: 256
+--           seconds]
+-- 11:01 < antho_> sorry, I'm a little confused. I can register one after the fact on a per-window
+--                 basis?
+-- 11:05 < geekosaur> io $ selectInput d w clientMask (see
+-- http://xmonad.org/xmonad-docs/xmonad/XMonad-Operations.html#v:setInitialProperties)
+-- 11:05 < geekosaur> you can't change what that one does, but you can make the same call with your
+--                    preferred mask afterward
+-- 11:06 < geekosaur> actually it looks like that happens early enough that you could do it in the
+--                    manageHook instead, which would be easier to make it per window
+-- 11:07 < geekosaur> (but test that... I notice it does the runQuery before calling windows, but it's
+--                    windows that applies it so I assume laziness defers stuff until it's actually
+--                    safe to do...)

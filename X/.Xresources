@@ -58,8 +58,9 @@ URxvt*.color6: #00aaaa
 !! Used by htop as background in several locations, and as foreground in
 !! a few others
 
-URxvt*.color7: #b2cce5
+URxvt*.color7: #4d6066
 ! white
+! * Used by yesod as fg
 
 Urxvt*.color8: #6c7a89
 ! bright black
