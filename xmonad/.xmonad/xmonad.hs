@@ -1,51 +1,47 @@
--- xmonad.hs
+-- mound.hs
 
 {-# LANGUAGE OverloadedStrings #-}
 
 import           XMonad
+import           XMonad.Actions.CycleWS
+import           XMonad.Actions.NoBorders
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks
-import           XMonad.Util.EZConfig        (additionalKeysP)
-
--- For quake-like terminal
-import           XMonad.Util.Scratchpad
-
-import           XMonad.Actions.NoBorders
 import           XMonad.Hooks.ManageHelpers
 import           XMonad.Hooks.SetWMName
-import           XMonad.Layout.NoBorders
-import qualified XMonad.StackSet             as W
-
--- For notifications
-import           Control.Applicative         ((<$>))
 import           XMonad.Hooks.UrgencyHook
+import           XMonad.Layout.NoBorders
+import           XMonad.Layout.ResizableTile
+import qualified XMonad.StackSet             as W
+import           XMonad.Util.EZConfig        (additionalKeysP)
 import           XMonad.Util.NamedWindows
 import           XMonad.Util.Run
+import           XMonad.Util.Scratchpad      (scratchpadManageHook,
+                                              scratchpadSpawnActionTerminal)
 
--- For resizable windows
-import           XMonad.Layout.ResizableTile
 
--- For cycling through workspaces
-import           XMonad.Actions.CycleWS
-
-import           XMonad.Hooks.FadeInactive
-
+import           Control.Applicative         ((<$>))
 import           Data.List                   (isInfixOf)
-
-import           Network.HTTP.Conduit
-import           Network.HTTP.Types          (methodPut)
-
--- For handleEventHook
 import           Data.Monoid                 (All (..))
-
--- Logging
-import           System.Log.Formatter
+import           Network.HTTP.Conduit
+import           System.Log.Formatter        (simpleLogFormatter)
 import           System.Log.Handler          (setFormatter)
-import           System.Log.Handler.Simple
-import           System.Log.Handler.Syslog
+import           System.Log.Handler.Simple   (fileHandler)
 import           System.Log.Logger
 
-main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
+
+mainLogger :: String
+mainLogger = "XMonad"
+
+main :: IO ()
+main = do
+  -- Get the logger handler.
+  h <- fileHandler ".xmonad/debug.log" DEBUG
+       >>= \lh -> return $ setFormatter lh
+                  (simpleLogFormatter "[$prio] $time | $msg")
+  updateGlobalLogger mainLogger (addHandler h . setLevel DEBUG)
+  debugM mainLogger "Starting XMonad."
+  xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
 
 data LibNotifyUrgencyHook = LibNotifyUrgencyHook deriving (Read, Show)
 
@@ -188,3 +184,6 @@ manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
 -- 11:07 < geekosaur> (but test that... I notice it does the runQuery before calling windows, but it's
 --                    windows that applies it so I assume laziness defers stuff until it's actually
 --                    safe to do...)
+
+--  LocalWords:  updateGlobalLogger handleEventHook geekosaur
+--  LocalWords:  notatray
