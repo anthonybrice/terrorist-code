@@ -13,4 +13,6 @@ fi
 export MANWIDTH=72
 
 typeset -U path
-path=($path ~/bin ~/.guile ~/.cabal/bin)
+path=($HOME/bin $HOME/.cabal/bin $path)
+
+export path
