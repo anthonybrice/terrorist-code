@@ -3,7 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 import           XMonad
-import           XMonad.Actions.CycleWS
+import           XMonad.Actions.CycleWS      (nextWS, prevWS)
 import           XMonad.Actions.NoBorders
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks
@@ -43,10 +43,10 @@ main = do
   debugM mainLogger "Starting XMonad."
   xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
 
-data LibNotifyUrgencyHook = LibNotifyUrgencyHook deriving (Read, Show)
+data NotatrayUrgencyHook = NotatrayUrgencyHook deriving (Read, Show)
 
-instance UrgencyHook LibNotifyUrgencyHook where
-  urgencyHook LibNotifyUrgencyHook w = do
+instance UrgencyHook NotatrayUrgencyHook where
+  urgencyHook NotatrayUrgencyHook w = do
     name <- getName w
     Just idx <- W.findTag w <$> gets windowset
 
@@ -68,9 +68,6 @@ instance UrgencyHook LibNotifyUrgencyHook where
                   ]
        _ <- io $ withManager $ httpLbs  req'
        return ()
-
-    -- Send notification to dbus
-    safeSpawn "notify-send" [show name, "workspace " ++ idx]
 
 -- Command to launch the bar.
 myBar = "xmobar"
