@@ -5,38 +5,38 @@
 import           XMonad
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks
-import           XMonad.Util.EZConfig       (additionalKeysP)
+import           XMonad.Util.EZConfig        (additionalKeysP)
 
 -- For quake-like terminal
 import           XMonad.Util.Scratchpad
 
+import           XMonad.Actions.NoBorders
 import           XMonad.Hooks.ManageHelpers
 import           XMonad.Hooks.SetWMName
 import           XMonad.Layout.NoBorders
-import XMonad.Actions.NoBorders
-import qualified XMonad.StackSet            as W
+import qualified XMonad.StackSet             as W
 
 -- For notifications
-import           Control.Applicative        ((<$>))
+import           Control.Applicative         ((<$>))
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Util.NamedWindows
 import           XMonad.Util.Run
 
 -- For resizable windows
-import XMonad.Layout.ResizableTile
+import           XMonad.Layout.ResizableTile
 
 -- For cycling through workspaces
-import XMonad.Actions.CycleWS
+import           XMonad.Actions.CycleWS
 
-import XMonad.Hooks.FadeInactive
+import           XMonad.Hooks.FadeInactive
 
-import Data.List (isInfixOf)
+import           Data.List                   (isInfixOf)
 
-import Network.HTTP.Conduit
-import Network.HTTP.Types (methodPut)
---import Network.HTTP.Client
+import           Network.HTTP.Conduit
+import           Network.HTTP.Types          (methodPut)
 
-import Data.Monoid(All(..))
+-- For handleEventHook
+import           Data.Monoid                 (All (..))
 
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
 
@@ -52,7 +52,7 @@ instance UrgencyHook LibNotifyUrgencyHook where
     -- window the next time it's focused.
     withDisplay $ \d -> io $ selectInput d w myClientMask
 
-    -- POST notification to notatray
+    -- POST notification to notatray.
     let initReq = parseUrl "http://localhost:3000/notification"
     case initReq of
      Nothing -> return ()
