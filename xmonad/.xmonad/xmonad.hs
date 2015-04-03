@@ -96,18 +96,16 @@ instance UrgencyHook NotatrayUrgencyHook where
        _ <- io $ withManager $ httpLbs  req'
        return ()
 
-
-
-xmobarEscape = concatMap doubleLts
-  where doubleLts '<' = "<<"
-        doubleLts x = [x]
-
 myWorkspaces :: [String]
 myWorkspaces = clickable . map xmobarEscape $
                ["1","2","3","4","5","6","7","8","9"]
-  where clickable l = [ "<action=xdotool key Super+" ++ show n ++ ">"
-                        ++ ws ++ "</action>"
-                      | (i,ws) <- zip [1..9] l, let n = i]
+  where
+    clickable l = [ "<action=xdotool key Super+" ++ show n ++ ">"
+                    ++ ws ++ "</action>"
+                  | (i,ws) <- zip [1..9] l, let n = i]
+    xmobarEscape = concatMap doubleLts
+      where doubleLts '<' = "<<"
+            doubleLts x = [x]
 
 myClientMask :: EventMask
 myClientMask = structureNotifyMask .|. enterWindowMask .|. propertyChangeMask
@@ -161,4 +159,7 @@ myConfig = withUrgencyHook NotatrayUrgencyHook $ defaultConfig
         l = 0  -- distance from left, 0%
 
 myHandleEventHook :: Event -> X All
-myHandleEventHook e = return (All True)
+myHandleEventHook e@(AnyEvent 9 _ _ d w) = do
+  io $ debugM mainLogger $ show e
+  return (All True)
+myHandleEventHook _ = return (All True)

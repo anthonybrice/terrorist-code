@@ -35,11 +35,12 @@
  '(haskell-doc-prettify-types t)
  '(haskell-mode-hook
    (quote
-    (turn-on-haskell-decl-scan
-     #[nil "\300\301!\207"
-           [run-hooks prelude-haskell-mode-hook]
-           2])))
+    (imenu-add-menubar-index turn-on-haskell-decl-scan turn-on-haskell-indentation
+                             #[nil "\300\301!\207"
+                                   [run-hooks prelude-haskell-mode-hook]
+                                   2])))
  '(haskell-stylish-on-save t)
+ '(haskell-tags-on-save t)
  '(indent-tabs-mode nil)
  '(js2-basic-offset 2)
  '(js3-auto-indent-p nil)
@@ -96,7 +97,14 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; My Haskell hooks
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+;;(add-hook 'haskell-mode-hook 'turn-on-hi2)
+;;(add-hook 'haskell-mode-hook #'hindent-mode)
+
+(eval-after-load 'haskell-mode
+  '(define-key haskell-mode-map [f8] 'haskell-navigate-imports))
+
 
 (set-frame-font "inconsolatazi4")
 
