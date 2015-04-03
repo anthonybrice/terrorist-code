@@ -32,9 +32,29 @@ import           Control.Applicative         ((<$>))
 import           Data.List                   (isInfixOf)
 import           Data.Monoid                 (All (..))
 
-
+-- The main logger class.
 mainLogger :: String
 mainLogger = "XMonad"
+
+-- The official "Focused UI Element" color.
+currentWindowColor :: String
+currentWindowColor = "#aa2e00"
+
+myBar :: String
+myBar = "xmobar"
+
+myTerminal :: String
+myTerminal = "urxvtcd"
+
+myPP :: PP
+myPP = xmobarPP { ppCurrent = xmobarColor currentWindowColor "" . wrap "<" ">"
+                , ppTitle = xmobarColor currentWindowColor "" . shorten 60
+                , ppSep = " | "
+                , ppHidden = noScratchPad
+                , ppUrgent = xmobarColor "#dc143c" "#f1f227" . pad
+                }
+  where
+    noScratchPad ws = if "NSP" `isInfixOf` ws then "" else ws
 
 main :: IO ()
 main = do
@@ -44,7 +64,11 @@ main = do
                   (simpleLogFormatter "[$prio] $time | $msg")
   updateGlobalLogger mainLogger (addHandler h . setLevel DEBUG)
   debugM mainLogger "Starting XMonad."
+  -- Start XMonad.
   xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
+    where
+      -- Toggle the display of xmobar.
+      toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 
 data NotatrayUrgencyHook = NotatrayUrgencyHook deriving (Read, Show)
 
@@ -72,31 +96,7 @@ instance UrgencyHook NotatrayUrgencyHook where
        _ <- io $ withManager $ httpLbs  req'
        return ()
 
--- Command to launch the bar.
-myBar = "xmobar"
 
-currentWindowColor = "#aa2e00"
-
--- Custom PP, configure it as you like. It determines what is being
--- written to the bar.
-myPP = xmobarPP { ppCurrent = xmobarColor currentWindowColor "" . wrap "<" ">"
-                , ppTitle = xmobarColor currentWindowColor "" . shorten 60
-                , ppSep = " | "
-                , ppHidden = noScratchPad
-                , ppUrgent = xmobarColor "#dc143c" "#f1f227" . pad
-                }
-  where
-    noScratchPad ws = if "NSP" `isInfixOf` ws then "" else ws
-
--- Key bindings to toggle the gap for the bar.
-toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
-
-myLayoutHook = ResizableTall 1 (3/100) (1/2) []
-               ||| Tall 1 (3/100) (1/2)
-               ||| Mirror (Tall 1 (3/100) (1/2))
-               ||| Full
-
-myTerminal = "urxvtcd"
 
 xmobarEscape = concatMap doubleLts
   where doubleLts '<' = "<<"
@@ -146,44 +146,23 @@ myConfig = withUrgencyHook NotatrayUrgencyHook $ defaultConfig
   , ("M4-<Right>", nextWS)
   , ("M4-g", withFocused toggleBorder)
   ]
+  where
+    myLayoutHook = ResizableTall 1 (3/100) (1/2) []
+                   ||| Tall 1 (3/100) (1/2)
+                   ||| Mirror (Tall 1 (3/100) (1/2))
+                   ||| Full
+    myManageHooks = composeAll
+                    [ isFullscreen --> doFullFloat
+                    , isDialog --> doF W.shiftMaster <+> doF W.swapDown
+                    , manageDocks
+                    , manageScratchPad
+                    ]
+    manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
+      where
+        h = 1  -- height, 100%
+        w = 0.4  -- width, 40%
+        t = 0  -- distance from top, 0%
+        l = 0  -- distance from left, 0%
 
 myHandleEventHook :: Event -> X All
 myHandleEventHook e = return (All True)
-
-myManageHooks = composeAll
-  [ isFullscreen --> doFullFloat
-  , isDialog --> doF W.shiftMaster <+> doF W.swapDown
-  , manageDocks
-  , manageScratchPad
-  ]
-
-manageScratchPad :: ManageHook
-manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
-  where
-    h = 1 -- terminal height, 100%
-    w = 0.4 -- terminal width, 40%
-    t = 0 -- distance from top edge, 0%
-    l = 0 -- distance from left edge, 0%
-
-
--- 10:55 < antho_> Can anyone tell me if it's possible to modify the clientMask?
--- 10:56 < geekosaur> not directly although you could conceivably hook something to register a
---                    different one after the window's been through X.O.windows (this probably means a
---                    layout modifier given its ordering)
--- 10:58 < antho_> I see, thanks
--- 10:58 -!- antho [~anthony@pool-71-189-186-98.lsanca.fios.verizon.net] has quit [Ping timeout: 256
---           seconds]
--- 11:01 < antho_> sorry, I'm a little confused. I can register one after the fact on a per-window
---                 basis?
--- 11:05 < geekosaur> io $ selectInput d w clientMask (see
--- http://xmonad.org/xmonad-docs/xmonad/XMonad-Operations.html#v:setInitialProperties)
--- 11:05 < geekosaur> you can't change what that one does, but you can make the same call with your
---                    preferred mask afterward
--- 11:06 < geekosaur> actually it looks like that happens early enough that you could do it in the
---                    manageHook instead, which would be easier to make it per window
--- 11:07 < geekosaur> (but test that... I notice it does the runQuery before calling windows, but it's
---                    windows that applies it so I assume laziness defers stuff until it's actually
---                    safe to do...)
-
---  LocalWords:  updateGlobalLogger handleEventHook geekosaur
---  LocalWords:  notatray
