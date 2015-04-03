@@ -131,10 +131,6 @@ myConfig = withUrgencyHook NotatrayUrgencyHook $ defaultConfig
   , ("C-<Print>", spawn "sleep 0.2; scrot -s")
   , ("<Print>", spawn "scrot")
   , ("M4-s", spawn "synapse")
-  -- , ("M4-p", spawn $ "exe=`dmenu_run -b -i -p 'exec ' -nb '#dac7b3' -nf black"
-  --            ++ " -sf black -sb '#e1f1f6' -fn"
-  --            ++ " 'inconsolatazi4-13:antialias=true:bold'"
-  --            ++ " ` && eval \"exec $exe\"")
   , ("M4-a", sendMessage MirrorShrink)
   , ("M4-z", sendMessage MirrorExpand)
   , ("M4-`", scratchpadSpawnActionTerminal myTerminal)
