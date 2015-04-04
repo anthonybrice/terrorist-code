@@ -90,7 +90,7 @@ URxvt*.color14: #005051
 Urxvt*.color15: #4d6066 
 ! bright white
 
-URxvt*.perl-ext-common: tabbedex
+URxvt*.perl-ext-common: tabbedex,matcher
 URxvt*.tabbed.tabbar-fg: 0
 URxvt*.tabbed.tabbar-bg: 15
 URxvt*.tabbed.tab-fg: 15
@@ -98,3 +98,6 @@ URxvt*.tabbed.tab-bg: 1
 URxvt*.tabbed.title-fg: 0
 URxvt*.tabbed.title-bg: 15
 URxvt*.tabbed.reopen-on-close: no
+
+URxvt*.url-launcher: /usr/bin/firefox
+URxvt*.matcher.button: 1
