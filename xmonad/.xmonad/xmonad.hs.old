@@ -3,35 +3,34 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 import           XMonad
-import           XMonad.Actions.CycleWS       (nextWS, prevWS)
-import           XMonad.Actions.NoBorders     (toggleBorder)
+import           XMonad.Actions.CycleWS      (nextWS, prevWS)
+import           XMonad.Actions.NoBorders    (toggleBorder)
 import           XMonad.Hooks.DynamicLog
-import           XMonad.Hooks.ManageDocks     (avoidStruts, manageDocks)
-import           XMonad.Hooks.ManageHelpers   (doFullFloat, isDialog,
-                                               isFullscreen)
-import           XMonad.Hooks.SetWMName       (setWMName)
-import           XMonad.Hooks.UrgencyHook     (UrgencyHook (..), focusUrgent,
-                                               withUrgencyHook)
-import           XMonad.Layout.LayoutModifier
-import           XMonad.Layout.NoBorders
-import           XMonad.Layout.ResizableTile  (MirrorResize (..),
-                                               ResizableTall (..))
-import qualified XMonad.StackSet              as W
-import           XMonad.Util.EZConfig         (additionalKeysP)
-import           XMonad.Util.NamedWindows     (getName)
-import           XMonad.Util.Scratchpad       (scratchpadManageHook,
-                                               scratchpadSpawnActionTerminal)
+import           XMonad.Hooks.ManageDocks    (avoidStruts, manageDocks)
+import           XMonad.Hooks.ManageHelpers  (doFullFloat, isDialog,
+                                              isFullscreen)
+import           XMonad.Hooks.SetWMName      (setWMName)
+import           XMonad.Hooks.UrgencyHook    (UrgencyHook (..), focusUrgent,
+                                              withUrgencyHook)
+import           XMonad.Layout.NoBorders     (smartBorders)
+import           XMonad.Layout.ResizableTile (MirrorResize (..),
+                                              ResizableTall (..))
+import qualified XMonad.StackSet             as W
+import           XMonad.Util.EZConfig        (additionalKeysP)
+import           XMonad.Util.NamedWindows    (getName)
+import           XMonad.Util.Scratchpad      (scratchpadManageHook,
+                                              scratchpadSpawnActionTerminal)
 
 import           Network.HTTP.Conduit
 
-import           System.Log.Formatter         (simpleLogFormatter)
-import           System.Log.Handler           (setFormatter)
-import           System.Log.Handler.Simple    (fileHandler)
+import           System.Log.Formatter        (simpleLogFormatter)
+import           System.Log.Handler          (setFormatter)
+import           System.Log.Handler.Simple   (fileHandler)
 import           System.Log.Logger
 
-import           Control.Applicative          ((<$>))
-import           Data.List                    (isInfixOf, (\\))
-import           Data.Monoid                  (All (..))
+import           Control.Applicative         ((<$>))
+import           Data.List                   (isInfixOf)
+import           Data.Monoid                 (All (..))
 
 -- The main logger class.
 mainLogger :: String
@@ -40,12 +39,6 @@ mainLogger = "XMonad"
 -- The official "Focused UI Element" color.
 currentWindowColor :: String
 currentWindowColor = "#aa2e00"
-
-urgentFg :: String
-urgentFg = "#dc143c"
-
-urgentBg :: String
-urgentBg = "#f1f227"
 
 myBar :: String
 myBar = "xmobar"
@@ -58,7 +51,7 @@ myPP = xmobarPP { ppCurrent = xmobarColor currentWindowColor "" . wrap "<" ">"
                 , ppTitle = xmobarColor currentWindowColor "" . shorten 60
                 , ppSep = " | "
                 , ppHidden = noScratchPad
-                , ppUrgent = xmobarColor urgentFg urgentBg . pad
+                , ppUrgent = xmobarColor "#dc143c" "#f1f227" . pad
                 }
   where
     noScratchPad ws = if "NSP" `isInfixOf` ws then "" else ws
@@ -100,7 +93,7 @@ instance UrgencyHook NotatrayUrgencyHook where
                   , ("icon", "xmonad.png")
                   , ("action", "echo hello from xmonad")
                   ]
-       _ <- io $ withManager $ httpLbs req'
+       _ <- io $ withManager $ httpLbs  req'
        return ()
 
 myWorkspaces :: [String]
@@ -170,13 +163,3 @@ myHandleEventHook e@(AnyEvent 9 _ _ d w) = do
   io $ debugM mainLogger $ show e
   return (All True)
 myHandleEventHook _ = return (All True)
-
--- data MyAmbiguity = MyAmbiguity deriving (Read, Show)
-
--- instance SetsAmbiguous MyAmbiguity where
---    hiddens _ wset mst wrs = otherHiddens OnlyFloat
---       where otherHiddens p = hiddens p wset mst wrs
-
--- instance (Read p, Show p, SetsAmbiguous p)
---          => LayoutModifier (ConfigurableBorder MyAmbiguity) Window where
---   modifyLayout _ w r = runLayout w r

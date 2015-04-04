@@ -25,7 +25,7 @@ URxvt*.scrollBarFloating: True
 URxvt*.saveLines: 5000
 URxvt*.internalBorder: 5
 ! URxvt*.cursorBlink: False
-URxvt*.depth: 32
+! URxvt*.depth: 32
 URxvt*.secondaryScreen: 1
 URxvt*.secondaryScroll: 1
 URxvt*.urgentOnBell: true
@@ -46,21 +46,25 @@ URxvt*.color2: #40806a
 
 URxvt*.color3: #5a440d 
 ! yellow
+! * Used as newsbeuter fg against 4.
 
-URxvt*.color4: #0000b5 
+URxvt*.color4: #00bfff
 ! blue
+! * Used as newsbeuter bg against 3.
 
 URxvt*.color5: #800080 
 ! magenta
+! Used as grep background.
 
 URxvt*.color6: #00aaaa 
 ! cyan
 !! Used by htop as background in several locations, and as foreground in
 !! a few others
 
-URxvt*.color7: #4d6066
+URxvt*.color7: #bdc3c7
 ! white
 ! * Used by yesod as fg
+! * Used by grep as the fg against 5
 
 Urxvt*.color8: #6c7a89
 ! bright black

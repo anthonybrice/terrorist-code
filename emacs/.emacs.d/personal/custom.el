@@ -39,8 +39,8 @@
                              #[nil "\300\301!\207"
                                    [run-hooks prelude-haskell-mode-hook]
                                    2])))
- '(haskell-stylish-on-save t)
- '(haskell-tags-on-save t)
+ '(haskell-stylish-on-save nil)
+ '(haskell-tags-on-save nil)
  '(indent-tabs-mode nil)
  '(js2-basic-offset 2)
  '(js3-auto-indent-p nil)
@@ -96,6 +96,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; Hooks for every programming language
+(add-hook 'prog-mode-hook 'rainbow-mode)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'conf-mode-hook 'rainbow-mode)
 
 ;; My Haskell hooks
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)

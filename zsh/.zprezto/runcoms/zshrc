@@ -17,6 +17,7 @@ fi
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
+export ncpus=8
 cabal() {
     if [ "$1" = install ]; then
         shift
