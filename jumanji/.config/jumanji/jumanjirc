@@ -1,0 +1,202 @@
+# # jumanjirc
+
+#set developer_extras true
+#script /home/anthony/.config/jumanji/scripts/hints.js
+
+# JUMANJI SETTINGS
+
+set adblock true
+set homepage https://www.duckduckgo.com
+set download-dir ~/Downloads/
+set download-command "wget --load-cookies ~/.config/jumanji/cookies '%s' -O %s"
+set show-scrollbars true
+set save-session-at-exit true
+set load-session-at-startup true
+
+# APPEARANCE SETTINGS 
+
+# Defines the color that is used for command line completion entries
+set completion-bg "#ededed"
+set completion-fg "#292929"
+
+# Defines the color that is used for command line completion group
+# elements
+set completion-group-bg "#ededed"
+set completion-group-fg "#292929"
+
+# defines the default color
+set default-bg "#ededed"
+set default-fg "#292929"
+
+# defines the background color of the inputbar
+set inputbar-bg "#ededed"
+set inputbar-fg "#292929"
+
+# Defines the color for an error notification
+set notification-error-bg "#ededed"
+set notification-error-fg "#292929"
+
+# Defines the color for a warning notification
+set notification-warning-bg "#ededed"
+set notification-warning-fg "#292929"
+
+# Defines the color for the a tab
+set tabbar-bg "#ededed"
+set tabbar-fg "#292929"
+
+# Defines the color for the focused tab
+set tabbar-focus-bg "#ededed"
+set tabbar-focus-fg "#aa2e00"
+
+# Defines the color of the status bar
+set statusbar-bg "#ededed"
+set statusbar-fg "#292929"
+
+## FONTS
+set font "Merriweather Sans  11"
+set hint-css true
+
+# SHORTCUTS
+
+# map f sc_hints
+
+#  SEARCH ENGINES
+
+searchengine duck http://duckduckgo.com/?q=%s
+
+# # Generic: {
+
+#     #set browser-name jumanji
+#     #set enable-webgl true
+#     #set single-instance true
+#     # set private_browsing true
+#     set editor emacs
+#     set spawn-editor emacs
+#     set user-agent          = "Mozilla/5.0 (X11; U; Linux x86_64; en-us) AppleWebKit/531.2+ (KHTML, like Gecko) Safari/531.2+ jumanji/0.1";
+#     # set y yank
+#     # set paste
+# # }
+
+
+# # Interface: {
+#     set scrollbar true
+#     set tabbar true
+#     # set font ubuntu 9
+#     # set content font size
+#     set font-size 12
+#     set minimum-font-size 8
+#     # set heigh and width
+#     #set height 580 
+#     #set width 1024
+# # }
+
+
+# # Download: {
+# set download-dir ~/Downloads/
+# set download-command urxvt -e sh -c "wget --load-cookies ~/.config/jumanji/cookies '%s' -O %s";
+# # set download_command gnome-terminal -x sh -c "wget --load-cookies ~/.config/jumanji/cookies '%s' -O %s";
+# # set download_command foo %s %s
+# # }
+
+
+# # Plugin: {
+# set plugin-blocker true
+# plugin application/x-shockwave-flash
+# # }
+
+
+# # Search Engine: {
+# searchengine google http://www.google.com/search?q=%s
+# searchengine wiki http://en.wikipedia.org/wiki/Special:Search?search=%s
+# searchengine duck http://duckduckgo.com/?q=%s 
+# searchengine github http://github.com/search?q=%s 
+# searchengine wiki-sec https://secure.wikimedia.org/wikipedia/en/w/index.php?search=%s
+# searchengine startpage https://startpage.com
+# # }
+
+
+# # Hints: {
+# # script ~/.config/jumanji/scripts/hints_char.js
+# script ~/.config/jumanji/scripts/hints.js
+# script ~/.config/jumanji/scripts/prettify.js
+# # }
+
+
+# # Session: {
+# # auto save bookmarks and historys and session 
+# # auto save session and restore session when open jumanji
+#set default_session_name start
+#set session_restored true
+# # }
+
+
+# # CSS: {
+# #set stylesheet ~/.config/jumanji/style.css
+# # }
+
+
+# # Proxy: { C-p to toggle proxy
+# # after you installed privoxy
+# # set proxy 127.0.0.1:8118
+# # FreeGate
+# # set proxy 127.0.0.1:8580
+# # I2P
+# # set proxy 127.0.0.1:4444
+# # Tor
+# # set proxy 127.0.0.1:9050
+# # }
+
+
+# # # ColorScheme: {
+# # # set look colors
+# # set default_bgcolor #000000
+# # set default_fgcolor #00FF00
+# # # set inputbar colors 
+# # set inputbar_fgcolor #00FF00
+# # set inputbar_bgcolor #000000
+# # # set statusbar colors 
+# # set statusbar_fgcolor #00FF00
+# # set statusbar_bgcolor #000000
+# # # set statusbar (SSl) color
+# # set statusbar_ssl_fgcolor #1E90FF
+# # set statusbar_ssl_bgcolor #000000
+# # # set tabbar colors 
+# # set tabbar_fgcolor #00FF00
+# # set tabbar_bgcolor #000000
+# # set tabbar_focus_fgcolor #55FFFF
+# # set tabbar_focus_bgcolor #000000
+# # set tabbar_separator_color #FF0000
+# # # set completion color
+# # set completion_fgcolor #00FF00
+# # set completion_bgcolor #000000
+# # # set completion cata color like (search engine. history)
+# # set completion_g_fgcolor #00FF00
+# # set completion_g_bgcolor #000000
+# # # set current url hilight color
+# # set completion_hl_fgcolor #000000
+# # set completion_hl_bgcolor #00FF00
+# # # set notify error color
+# # set notification_e_fgcolor #000000
+# # set notification_e_bgcolor #FF0000
+# # # set notify warning color
+# # set notification_w_fgcolor #000000
+# # set notification_w_bgcolor #FF0000
+# # # }
+
+
+# # Key-bingings: {
+# # you can see source code s config.h to find which key is bind
+# # map [key] [function] [argument] [mode]
+# # map <C-q> quit
+# # map <C-o> nav_history previous
+# # map <C-i> nav_history forward
+# # map <C-w> close_tab
+# #map i close_tab
+# #map l nav_tabs next
+# #map h nav_tabs previous
+# # map e toggle_sourcecode
+# # map s cmd_saveas
+# # map e <C-s>
+# # }
+
+# #set download-command "wget --load-cookies ~/.local/share/jumanji/cookies '%s' -O '%s'"
