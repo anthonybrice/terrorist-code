@@ -1,0 +1,7 @@
+# My newsbeuter config
+
+auto-reload yes
+browser "jumanji %u > /dev/null 2>&1"
+confirm-exit yes
+cookie-cache "~/.newsbeuter/cookies.txt"
+
