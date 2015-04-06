@@ -62,7 +62,11 @@ set hint-css true
 
 #  SEARCH ENGINES
 
+searchengine sp https://startpage.com/do/search?query=%s
 searchengine duck http://duckduckgo.com/?q=%s
+searchengine go https://www.google.com/search?q=%s
+searchengine arch https://wiki.archlinux.org/?search=%s
+searchengine wiki https://en.wikipedia.org/w/?search=%s
 
 # # Generic: {
 
