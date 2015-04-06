@@ -5,6 +5,13 @@ set imap_user = whitebrice@gmail.com
 set folder = imaps://imap.gmail.com/
 set spoolfile = +INBOX
 mailboxes = +INBOX
+bind index G imap-fetch-mail
+set timeout = 30
+
+set sendmail = "/usr/bin/msmtp"
+set edit_headers = yes
+
+set editor="emacsclient -a \"\" -t"
 
 # Store message headers locally to speed things up.  If hcache is a
 # folder, Mutt will create sub cache folders for each account which

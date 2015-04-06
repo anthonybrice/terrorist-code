@@ -111,6 +111,9 @@
   '(define-key haskell-mode-map [f8] 'haskell-navigate-imports))
 
 
+;; Mutt hooks
+(setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
+
 (set-frame-font "inconsolatazi4")
 
 (provide 'custom)
