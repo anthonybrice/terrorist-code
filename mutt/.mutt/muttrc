@@ -7,6 +7,7 @@ set spoolfile = +INBOX
 mailboxes = +INBOX
 bind index G imap-fetch-mail
 set timeout = 30
+auto_view text/html
 
 set sendmail = "/usr/bin/msmtp"
 set edit_headers = yes

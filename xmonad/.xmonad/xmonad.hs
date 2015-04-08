@@ -129,7 +129,7 @@ myConfig = withUrgencyHook NotatrayUrgencyHook $ defaultConfig
   , modMask = mod4Mask -- Rebind Mod to the Windows key
   , focusFollowsMouse = False
   , handleEventHook = myHandleEventHook
-  , borderWidth = 3
+  , borderWidth = 4
   , workspaces = myWorkspaces
   } `additionalKeysP`
   [ ("M4-S-z", spawn "xscreensaver-command -lock")

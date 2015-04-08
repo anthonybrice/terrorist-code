@@ -12,6 +12,7 @@ set download-command "wget --load-cookies ~/.config/jumanji/cookies '%s' -O %s"
 set show-scrollbars true
 set save-session-at-exit true
 set load-session-at-startup true
+set default-clipboard "clipboard"
 
 # APPEARANCE SETTINGS 
 

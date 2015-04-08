@@ -40,9 +40,10 @@ URxvt*.color0: #292929
 URxvt*.color1: #aa2e00 
 ! red
 
-URxvt*.color2: #40806a
+URxvt*.color2: #1bbc9b
 ! green
-! Used by htop as background color of column headers
+! * htop column headers bg
+! * tmux window list bg
 
 URxvt*.color3: #5a440d 
 ! yellow
@@ -58,13 +59,14 @@ URxvt*.color5: #800080
 
 URxvt*.color6: #00aaaa 
 ! cyan
-!! Used by htop as background in several locations, and as foreground in
-!! a few others
+! * Used by htop as background in several locations, and as foreground in
+!   a few others
 
 URxvt*.color7: #bdc3c7
 ! white
 ! * Used by yesod as fg
 ! * Used by grep as the fg against 5
+! * Used by irssi as fg a
 
 Urxvt*.color8: #6c7a89
 ! bright black
@@ -99,5 +101,5 @@ URxvt*.tabbed.title-fg: 0
 URxvt*.tabbed.title-bg: 15
 URxvt*.tabbed.reopen-on-close: no
 
-URxvt*.url-launcher: /usr/bin/firefox
+URxvt*.url-launcher: /usr/bin/jumanji
 URxvt*.matcher.button: 1
