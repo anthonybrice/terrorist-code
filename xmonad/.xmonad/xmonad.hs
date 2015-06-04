@@ -1,6 +1,8 @@
 -- xmonad.hs
 
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE FlexibleContexts #-}
+
 
 import           XMonad
 import           XMonad.Actions.CycleWS       (nextWS, prevWS)
@@ -94,7 +96,7 @@ instance UrgencyHook NotatrayUrgencyHook where
     case initReq of
      Nothing -> return ()
      Just req -> do
-       let req' = (flip urlEncodedBody) req
+       let req' = flip urlEncodedBody req
                   [ ("title", "xmonad")
                   , ("content", "XMONAD")
                   , ("icon", "xmonad.png")
@@ -110,7 +112,7 @@ myWorkspaces = clickable . map xmobarEscape $
     clickable l = [ "<action=xdotool key Super+" ++ show n ++ ">"
                     ++ ws ++ "</action>"
                   | (i,ws) <- zip [1..9] l, let n = i]
-    xmobarEscape = concatMap doubleLts
+    xmobarEscape = (=<<) doubleLts
       where doubleLts '<' = "<<"
             doubleLts x = [x]
 
@@ -146,6 +148,7 @@ myConfig = withUrgencyHook NotatrayUrgencyHook $ defaultConfig
   , ("M4-<Left>", prevWS)
   , ("M4-<Right>", nextWS)
   , ("M4-g", withFocused toggleBorder)
+  , ("M4-p", spawn $ "exe=`dmenu-launch`")
   ]
   where
     myLayoutHook = ResizableTall 1 (3/100) (1/2) []
