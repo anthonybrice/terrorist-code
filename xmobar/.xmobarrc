@@ -8,26 +8,22 @@ Config { font = "xft:enriqueta:size=15:antialias=true:hinting=true:style=Bold"
        , position = Top
        , lowerOnStart = True
        , hideOnStart = False
-       , commands = [ -- Run BatteryP ["BAT0"] [ "-t", "Batt: <left>% / <timeleft>"
-                    --                         , "-L", "10", "-H", "80", "-p", "3"
-                    --                         , "--", "-O", "<fc="#007a7c">On</fc> - "
-                    --                         , "-i", "", "-L", "-15", "-H", "-5"
-                    --                         , "-l", "red", "-m", "blue", "-h"
-                    --                         , "#007a7c"
-                    --                         ] 600
-                    -- --
-                    -- , Run Wireless "wlp2s0" ["-t", "<essid>: <quality>%"] 10
-                    -- , Run Network "eth0" ["-L","0","-H","32","--normal","#007a7c","--high","red"] 10
-                    -- , Run Network "eth1" ["-L","0","-H","32","--normal","#007a7c","--high","red"] 10
-                    -- , Run Cpu ["-L","3","-H","50","--normal","#009933","--high",
-                    --          "red"] 10
-                    -- , Run Memory ["-t","Mem: <usedratio>%"] 10
-                    -- , Run Swap [] 10
-                    -- , Run Com "uname" ["-s","-r"] "" 36000
-                    Run Date "%a, %b %d, %Y | %l:%M %P" "date" 10
-                    -- , Run Com "./bin/getVolume" [] "myVolume" 10
+       , commands = [ Run BatteryP ["BAT0"] [ "-t", "Batt: <watts>, <left>% / <timeleft>"
+                                            -- , "-L", "10"
+                                            -- , "-H", "80"
+                                            -- , "--", "-O", "<fc="#007a7c">On</fc> - "
+                                            -- , "-i", ""
+                                            -- , "-L", "-15"
+                                            -- , "-H", "-5"
+                                            -- , "-l", "red"
+                                            -- , "-m", "blue"
+                                            -- , "-h", "#007a7c"
+                                            , "--"
+                                            , "-O", "<fc=#007a7c>On</fc> - "
+                                            , "-i", ""
+                                            ] 60
+                    , Run Date "%a, %b %d, %Y | %l:%M %P" "date" 10
                     , Run UnsafeStdinReader
-                      -- Network activity monitor (dynamic interface resolution)
                     , Run DynNetwork     [ "--template" , "<dev>: <tx>kBps/<rx>kBps"
                                          , "--Low"      , "1000"       -- units: kB/s
                                          , "--High"     , "5000"       -- units: kB/s
@@ -35,32 +31,8 @@ Config { font = "xft:enriqueta:size=15:antialias=true:hinting=true:style=Bold"
                                          , "--normal"   , "#aa00aa"
                                          , "--high"     , "#b22222"
                                          ] 10
-
-                      -- cpu activity monitor
-                    --, Run MultiCpu       [ "--template", "Cpu: [<total0>%, <total1>%, <total2>%, <total3>%, <total4>%, <total5>%, <total6>%, <total7>%]"
-                    --                      , "--Low"      , "50"         -- units: %
-                    --                      , "--High"     , "85"         -- units: %
-                    --                      , "--low"      , "#1460aa"
-                    --                      , "--normal"   , "#aa00aa"
-                    --                      , "--high"     , "#b22222"
-                    --                      ] 10
-                      -- memory usage monitor
-                    , Run Memory         [ "--template" ,"Mem: <usedratio>%"
-                                         , "--Low"      , "20"        -- units: %
-                                         , "--High"     , "90"        -- units: %
-                                         , "--low"      , "#1460aa"
-                                         , "--normal"   , "#aa00aa"
-                                         , "--high"     , "#b22222"
-                                         ] 10
-                    , Run Cpu [ "--template", "Cpu: <total>%"
-                              , "--Low", "20"
-                              , "--High", "90"
-                              , "--low", "#1460aa"
-                              , "--normal", "#aa00aa"
-                              , "--high", "#b22222"
-                              ] 10
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %UnsafeStdinReader% } %date% { %cpu% | %memory% | %dynnetwork%                                         "
+       , template = " %UnsafeStdinReader% } %date% { %battery% | %dynnetwork%                                         "
        }

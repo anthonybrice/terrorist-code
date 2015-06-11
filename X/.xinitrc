@@ -47,7 +47,7 @@ export SSH_AUTH_SOCK
 isavailable ./bin/urxvtcd && ./bin/urxvtcd &
 
 # Start compton
-isavailable compton && compton -b --vsync opengl --dbe
+isavailable compton && compton -b --vsync opengl --backend glx
 
 # Start the window manager
 exec xmonad

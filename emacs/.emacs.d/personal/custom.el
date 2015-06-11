@@ -28,6 +28,7 @@
    (quote
     ("/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/usr/lib/emacs/24.4/x86_64-unknown-linux-gnu" "/home/anthony/.cabal/bin")))
  '(fci-rule-color "#383838")
+ '(fill-column 80)
  '(font-latex-fontify-script nil)
  '(font-latex-math-environments
    (quote
@@ -38,7 +39,7 @@
     (imenu-add-menubar-index turn-on-haskell-decl-scan turn-on-haskell-indentation
                              #[nil "\300\301!\207"
                                    [run-hooks prelude-haskell-mode-hook]
-                                   2])))
+                                   2])) t)
  '(haskell-stylish-on-save nil)
  '(haskell-tags-on-save nil)
  '(indent-tabs-mode nil)
@@ -53,6 +54,8 @@
  '(js3-lazy-dots nil)
  '(menu-bar-mode t)
  '(nxml-child-indent 4)
+ '(org-html-doctype "html5")
+ '(org-html-html5-fancy t)
  '(preview-scale-function 1.3)
  '(preview-transparent-color (quote (highlight :background)))
  '(sp-cancel-autoskip-on-backward-movement nil)
@@ -115,6 +118,12 @@
 (setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
 
 (set-frame-font "inconsolatazi4")
+
+;; fix the "Tramp: Sending Password" bug
+(setq projectile-mode-line " Projectile")
+
+;; trim trailing whitespace on save
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (provide 'custom)
 
