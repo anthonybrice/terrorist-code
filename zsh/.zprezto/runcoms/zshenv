@@ -16,3 +16,5 @@ typeset -U path
 path=($HOME/bin $HOME/.cabal/bin $path)
 
 export path
+
+export EDITOR="emacsclient -t"
