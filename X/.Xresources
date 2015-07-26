@@ -14,10 +14,13 @@ Emacs*menubar.margin: 0
 Emacs*shadowThickness: 1
 Emacs*.font: inconsolatazi4
 
+!urxvt*depth: 32
+!urxvt*background: rgba:0000/0000/0200/c800
+
 URxvt*.transparent: true
 ! URxvt*.shading: 0 to 99 darkens, 101 to 200 lightens
 URxvt*.shading: 160
-URxvt*.font: xft:inconsolata:antialias=true:hinting=true:13
+URxvt*.font: xft:Inconsolata for Powerline:antialias=true:hinting=true:13
 URxvt*.boldFont: xft:inconsolata:antialias=true:hinting=true:13:style=bold
 URxvt*.scrollstyle: plain
 URxvt*.scrollBar_right: True
@@ -26,8 +29,6 @@ URxvt*.saveLines: 5000
 URxvt*.internalBorder: 5
 ! URxvt*.cursorBlink: False
 ! URxvt*.depth: 32
-URxvt*.secondaryScreen: 1
-URxvt*.secondaryScroll: 1
 URxvt*.urgentOnBell: true
 
 URxvt*.cursorColor: #aa2e00
@@ -37,7 +38,7 @@ URxvt*.color0: #292929
 ! black
 ! Used as foreground color by htop against color2 and color
 
-URxvt*.color1: #aa2e00 
+URxvt*.color1: #aa2e00
 ! red
 
 URxvt*.color2: #1bbc9b
@@ -45,7 +46,7 @@ URxvt*.color2: #1bbc9b
 ! * htop column headers bg
 ! * tmux window list bg
 
-URxvt*.color3: #5a440d 
+URxvt*.color3: #5a440d
 ! yellow
 ! * Used as newsbeuter fg against 4.
 
@@ -53,11 +54,11 @@ URxvt*.color4: #00bfff
 ! blue
 ! * Used as newsbeuter bg against 3.
 
-URxvt*.color5: #800080 
+URxvt*.color5: #800080
 ! magenta
 ! Used as grep background.
 
-URxvt*.color6: #00aaaa 
+URxvt*.color6: #00aaaa
 ! cyan
 ! * Used by htop as background in several locations, and as foreground in
 !   a few others
@@ -71,25 +72,25 @@ URxvt*.color7: #bdc3c7
 Urxvt*.color8: #6c7a89
 ! bright black
 
-URxvt*.color9: #b22222 
+URxvt*.color9: #b22222
 ! bright red
 
-URxvt*.color10: #4b6913 
+URxvt*.color10: #4b6913
 ! bright green
 
-URxvt*.color11: #726012 
+URxvt*.color11: #726012
 ! bright yellow
 
-URxvt*.color12: #006080 
+URxvt*.color12: #006080
 ! bright blue
 
-URxvt*.color13: #aa00aa 
+URxvt*.color13: #aa00aa
 ! bright magenta
 
-URxvt*.color14: #005051 
+URxvt*.color14: #005051
 ! bright cyan
 
-Urxvt*.color15: #4d6066 
+Urxvt*.color15: #4d6066
 ! bright white
 
 URxvt*.perl-ext-common: tabbedex,matcher
@@ -101,5 +102,10 @@ URxvt*.tabbed.title-fg: 0
 URxvt*.tabbed.title-bg: 15
 URxvt*.tabbed.reopen-on-close: no
 
-URxvt*.url-launcher: /usr/bin/jumanji
+URxvt*.url-launcher: /usr/bin/firefox
 URxvt*.matcher.button: 1
+
+!URxvt*.letterSpace: -1
+
+URxvt*.secondaryWheel: 1
+URxvt*.secondaryScroll: 0

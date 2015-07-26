@@ -137,18 +137,24 @@ myConfig = withUrgencyHook NotatrayUrgencyHook $ defaultConfig
   [ ("M4-S-z", spawn "xscreensaver-command -lock")
   , ("C-<Print>", spawn "sleep 0.2; scrot -s")
   , ("<Print>", spawn "scrot")
-  , ("M4-s", spawn "synapse")
   , ("M4-a", sendMessage MirrorShrink)
   , ("M4-z", sendMessage MirrorExpand)
   , ("M4-`", scratchpadSpawnActionTerminal myTerminal)
   , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 10%+")
   , ("<XF86AudioLowerVolume>", spawn "amixer set Master 10%-")
   , ("<XF86AudioMute>", spawn "amixer set Master toggle")
+  , ("<XF86MonBrightnessDown>", spawn "xbacklight -10")
+  , ("<XF86MonBrightnessUp>", spawn "xbacklight +10")
+  , ("<XF86KbdBrightnessDown>", spawn "sudo kbd-backlight down")
+  , ("<XF86KbdBrightnessUp>", spawn "sudo kbd-backlight up")
   , ("M4-u", focusUrgent)
   , ("M4-<Left>", prevWS)
   , ("M4-<Right>", nextWS)
   , ("M4-g", withFocused toggleBorder)
-  , ("M4-p", spawn $ "exe=`dmenu-launch`")
+  , ("M4-p", spawn $ "j4-dmenu-desktop --term zsh --dmenu=\"dmenu -i -b -p 'exec '"
+             ++ " -nb '#dac7b3' -nf black -sf black -sb '#e1f1f6' -fn"
+             ++ " 'inconsolatazi4-13:antialias=true:bold'"
+             ++ " && eval \" exec $exe\"\"")
   ]
   where
     myLayoutHook = ResizableTall 1 (3/100) (1/2) []
@@ -164,7 +170,7 @@ myConfig = withUrgencyHook NotatrayUrgencyHook $ defaultConfig
     manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
       where
         h = 1  -- height, 100%
-        w = 0.4  -- width, 40%
+        w = 0.42  -- width, 50%
         t = 0  -- distance from top, 0%
         l = 0  -- distance from left, 0%
 

@@ -3,6 +3,7 @@
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
+#   Anthony Brice <anthonybrice@lateachiever.com>
 #
 
 # Source Prezto.
@@ -16,8 +17,9 @@ fi
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+alias man='man --no-justification'
 
-export ncpus=8
+export ncpus=4
 cabal() {
     if [ "$1" = install ]; then
         shift

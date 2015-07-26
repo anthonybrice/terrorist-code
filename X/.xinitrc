@@ -9,7 +9,7 @@ isavailable() {
     type "$1" &>/dev/null
 }
 
-# WTF does this do?
+# Sources scripts in xinitrc.d
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
     for f in /etc/X11/xinit/xinitrc.d/*; do
         [ -x "$f" ] && . "$f"
@@ -24,30 +24,25 @@ xrdb -merge .Xresources
 
 # Set the background image and the mouse pointer
 feh --bg-fill /home/anthony/Pictures/beach.png
-xsetroot -cursor_name left_ptr -bg "#bae4ee"
+xsetroot -cursor_name left_ptr -bg "#BAE4EE"
 
-# Display a systemtray in the top-right
-trayer --edge top --align right --SetDockType true --SetPartialStrut true \
-       --expand true --width 10 --height 30 --transparent true --alpha 255 &
+#############
+# Autostart #
+#############
 
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
-#export GNOME_KEYRING_SOCKET
-#export GNOME_KEYRING_PID
 
-## Autostart
-# Start the screen locker and the program that makes it turn on after suspend
-#isavailable xscreensaver && xscreensaver -no-splash &
-#isavailable xss-lock && xss-lock -- xscreensaver-command -lock &
-
-# Start redshift
-#isavailable redshift && redshift -l 34.11:-118.41 &
-
-# Start urxvt daemon
 isavailable ./bin/urxvtcd && ./bin/urxvtcd &
 
-# Start compton
 isavailable compton && compton -b --vsync opengl --backend glx
+
+isavailable dunst && dunst -config .dunstrc &
+
+isavailable syndaemon && syndaemon -t -k -d -i 2
+
+isavailable synclient && synclient PalmDetect=1 TapButton2=3 TapButton3=2 \
+    FingerHigh=105 FingerLow=100 HorizTwoFingerScroll=1 PalmMinWidth=14 &
 
 # Start the window manager
 exec xmonad

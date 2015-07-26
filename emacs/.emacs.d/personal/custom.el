@@ -23,7 +23,8 @@
    (quote
     ("4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "31a01668c84d03862a970c471edbd377b2430868eccf5e8a9aec6831f1a0908d" "1297a022df4228b81bc0436230f211bad168a117282c20ddcba2db8c6a200743" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" default)))
  '(electric-indent-mode nil)
- '(electric-pair-mode nil)
+ '(electric-pair-mode t)
+ '(electric-pair-preserve-balance t)
  '(exec-path
    (quote
     ("/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/usr/lib/emacs/24.4/x86_64-unknown-linux-gnu" "/home/anthony/.cabal/bin")))
@@ -33,23 +34,23 @@
  '(font-latex-math-environments
    (quote
     ("display" "displaymath" "equation" "eqnarray" "gather" "multline" "align" "alignat" "xalignat" "xxalignat" "flalign" "IEEEeqnarray")))
- '(haskell-doc-prettify-types t)
  '(haskell-mode-hook
    (quote
     (imenu-add-menubar-index turn-on-haskell-decl-scan turn-on-haskell-indentation
                              #[nil "\300\301!\207"
                                    [run-hooks prelude-haskell-mode-hook]
                                    2])) t)
- '(haskell-stylish-on-save nil)
- '(haskell-tags-on-save nil)
+ '(highlight-indentation-offset 2)
  '(indent-tabs-mode nil)
  '(js2-basic-offset 2)
  '(js3-auto-indent-p nil)
  '(js3-compact nil)
  '(js3-consistent-level-indent-inner-bracket t)
  '(js3-continued-expr-mult 0)
- '(js3-enter-indents-newline t)
- '(js3-global-externs (quote ("require" "process" "module" "console")))
+ '(js3-enter-indents-newline nil)
+ '(js3-global-externs
+   (quote
+    ("require" "process" "module" "console" "angular" "jQ")))
  '(js3-indent-dots t)
  '(js3-lazy-dots nil)
  '(menu-bar-mode t)
@@ -105,14 +106,50 @@
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'conf-mode-hook 'rainbow-mode)
 
-;; My Haskell hooks
-(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-;;(add-hook 'haskell-mode-hook 'turn-on-hi2)
+;;;;;;;;;;;;;
+;; Haskell ;;
+;;;;;;;;;;;;;
+
+;;(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+(add-hook 'haskell-mode-hook 'turn-on-hi2)
 ;;(add-hook 'haskell-mode-hook #'hindent-mode)
 
 (eval-after-load 'haskell-mode
   '(define-key haskell-mode-map [f8] 'haskell-navigate-imports))
 
+(defun my-align-single-equals ()
+  "Align on a single equals sign (with a space either side)."
+  (interactive)
+  (align-regexp
+   (region-beginning) (region-end)
+   "\\(\\s-*\\) = " 1 0 nil))
+
+(global-set-key (kbd "C-c a") 'my-align-single-equals)
+
+(let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
+  (setenv "PATH" (concat my-cabal-path path-separator (getenv "PATH")))
+  (add-to-list 'exec-path my-cabal-path))
+(customize-set-variable 'haskell-tags-on-save t)
+
+(customize-set-variable 'haskell-process-suggest-remove-import-lines t)
+(customize-set-variable 'haskell-process-auto-import-loaded-modules t)
+(customize-set-variable 'haskell-process-log t)
+(eval-after-load 'haskell-mode '(progn
+  (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
+  (define-key haskell-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
+  (define-key haskell-mode-map (kbd "C-c C-n C-t") 'haskell-process-do-type)
+  (define-key haskell-mode-map (kbd "C-c C-n C-i") 'haskell-process-do-info)
+  (define-key haskell-mode-map (kbd "C-c C-n C-c") 'haskell-process-cabal-build)
+  (define-key haskell-mode-map (kbd "C-c C-n c") 'haskell-process-cabal)
+  (define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
+  (define-key haskell-mode-map (kbd "C-c a") 'my-align-single-equals)))
+(eval-after-load 'haskell-cabal '(progn
+  (define-key haskell-cabal-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
+  (define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
+  (define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+  (define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)))
+
+(customize-set-variable 'haskell-process-type 'cabal-repl)
 
 ;; Mutt hooks
 (setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
@@ -124,6 +161,19 @@
 
 ;; trim trailing whitespace on save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;;; make js3 default for .js
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
+
+;;;;;;;;;
+;; SQL ;;
+;;;;;;;;;
+
+;; load sql-indent for sql-mode
+;;(eval-after-load "sql"
+;;  (load-library "sql-indent"))
+;; load sqlup-mode
+(add-hook 'sql-mode-hook 'sqlup-mode)
 
 (provide 'custom)
 

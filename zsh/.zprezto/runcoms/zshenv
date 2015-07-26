@@ -10,11 +10,11 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
-export MANWIDTH=72
-
 typeset -U path
-path=($HOME/bin $HOME/.cabal/bin $path)
-
+path=($HOME/bin $HOME/.cabal/bin $HOME/.local/bin $path)
 export path
 
 export EDITOR="emacsclient -t"
+export MAKEFLAGS="-j4"
+export MANWIDTH=72
+export XDG_CONFIG_HOME

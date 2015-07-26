@@ -9,30 +9,22 @@ Config { font = "xft:enriqueta:size=15:antialias=true:hinting=true:style=Bold"
        , lowerOnStart = True
        , hideOnStart = False
        , commands = [ Run BatteryP ["BAT0"] [ "-t", "Batt: <watts>, <left>% / <timeleft>"
-                                            -- , "-L", "10"
-                                            -- , "-H", "80"
-                                            -- , "--", "-O", "<fc="#007a7c">On</fc> - "
-                                            -- , "-i", ""
-                                            -- , "-L", "-15"
-                                            -- , "-H", "-5"
-                                            -- , "-l", "red"
-                                            -- , "-m", "blue"
-                                            -- , "-h", "#007a7c"
                                             , "--"
                                             , "-O", "<fc=#007a7c>On</fc> - "
                                             , "-i", ""
-                                            ] 60
+                                            ] 20
                     , Run Date "%a, %b %d, %Y | %l:%M %P" "date" 10
                     , Run UnsafeStdinReader
-                    , Run DynNetwork     [ "--template" , "<dev>: <tx>kBps/<rx>kBps"
-                                         , "--Low"      , "1000"       -- units: kB/s
-                                         , "--High"     , "5000"       -- units: kB/s
-                                         , "--low"      , "#1460aa"
-                                         , "--normal"   , "#aa00aa"
-                                         , "--high"     , "#b22222"
-                                         ] 10
+                    , Run Volume "default" "Master" [ "--template" , "<action=`amixer -q set Master toggle`>Vol: <status></action>"
+                                        , "--"
+                                        , "-c"         , "#292929"
+                                        , "-o"         , "[off]"
+                                        , "-C"         , "#292929"
+                                        , "-O"         , "<volume> [on]"
+                                        ] 10
+                    , Run Wireless "wlp3s0" [] 20
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %UnsafeStdinReader% } %date% { %battery% | %dynnetwork%                                         "
+       , template = " %UnsafeStdinReader% } %date% { %default:Master% | %battery% | %wlp3s0wi% "
        }
