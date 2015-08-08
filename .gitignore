@@ -26,6 +26,9 @@ xmonad-x86_64-linux
 # For emacs lisp
 *.elc
 
+# newsbeuter's cache file
+cache.db
+
 # not ready to commit
 ghc-mod
 ghc-modi
