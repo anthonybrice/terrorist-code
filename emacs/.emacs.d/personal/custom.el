@@ -50,7 +50,7 @@
  '(js3-enter-indents-newline nil)
  '(js3-global-externs
    (quote
-    ("require" "process" "module" "console" "angular" "jQ")))
+    ("require" "process" "module" "console" "angular" "jQ" "FormData")))
  '(js3-indent-dots t)
  '(js3-lazy-dots nil)
  '(menu-bar-mode t)
@@ -111,7 +111,7 @@
 ;;;;;;;;;;;;;
 
 ;;(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-(add-hook 'haskell-mode-hook 'turn-on-hi2)
+;;(add-hook 'haskell-mode-hook 'turn-on-hi2)
 ;;(add-hook 'haskell-mode-hook #'hindent-mode)
 
 (eval-after-load 'haskell-mode
@@ -173,7 +173,24 @@
 ;;(eval-after-load "sql"
 ;;  (load-library "sql-indent"))
 ;; load sqlup-mode
-(add-hook 'sql-mode-hook 'sqlup-mode)
+;;(add-hook 'sql-mode-hook 'sqlup-mode)
+
+;;;;;;;;;;;;;;;;
+;; ECMAScript ;;
+;;;;;;;;;;;;;;;;
+
+(add-hook 'js3-mode-hook 'rainbow-delimiters-mode)
+
+;;;;;;;;;;
+;; MISC ;;
+;;;;;;;;;;
+
+;; Disables emacs' minimization shortcuts, since they crash emacs in Xmonad.
+(global-unset-key "\C-z")
+(global-unset-key "\C-x\C-z")
+
+;; set company-mode's dabbrev backend to be case sensitive
+(setq company-dabbrev-downcase nil)
 
 (provide 'custom)
 

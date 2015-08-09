@@ -16,12 +16,12 @@ Config { font = "xft:enriqueta:size=15:antialias=true:hinting=true:style=Bold"
                     , Run Date "%a, %b %d, %Y | %l:%M %P" "date" 10
                     , Run UnsafeStdinReader
                     , Run Volume "default" "Master" [ "--template" , "<action=`amixer -q set Master toggle`>Vol: <status></action>"
-                                        , "--"
-                                        , "-c"         , "#292929"
-                                        , "-o"         , "[off]"
-                                        , "-C"         , "#292929"
-                                        , "-O"         , "<volume> [on]"
-                                        ] 10
+                                                    , "--"
+                                                    , "-c"         , "#292929"
+                                                    , "-o"         , "[off]"
+                                                    , "-C"         , "#292929"
+                                                    , "-O"         , "<volume> [on]"
+                                                    ] 10
                     , Run Wireless "wlp3s0" [] 20
                     ]
        , sepChar = "%"
