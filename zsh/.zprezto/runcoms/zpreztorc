@@ -31,11 +31,9 @@ zstyle ':prezto:load' pmodule \
   'environment' \
   'terminal' \
   'archive' \
-  'command-not-found' \
   'editor' \
-  'history' \
   'command-not-found' \
-  'archive' \
+  'history' \
   'git' \
   'gpg' \
   'node' \

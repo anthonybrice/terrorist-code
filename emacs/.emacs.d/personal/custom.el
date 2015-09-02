@@ -30,10 +30,12 @@
     ("/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/usr/lib/emacs/24.4/x86_64-unknown-linux-gnu" "/home/anthony/.cabal/bin")))
  '(fci-rule-color "#383838")
  '(fill-column 80)
+ '(flycheck-python-pycompile-executable nil)
  '(font-latex-fontify-script nil)
  '(font-latex-math-environments
    (quote
     ("display" "displaymath" "equation" "eqnarray" "gather" "multline" "align" "alignat" "xalignat" "xxalignat" "flalign" "IEEEeqnarray")))
+ '(global-flycheck-mode t)
  '(haskell-mode-hook
    (quote
     (imenu-add-menubar-index turn-on-haskell-decl-scan turn-on-haskell-indentation
@@ -50,7 +52,7 @@
  '(js3-enter-indents-newline nil)
  '(js3-global-externs
    (quote
-    ("require" "process" "module" "console" "angular" "jQ" "FormData")))
+    ("require" "process" "module" "console" "angular" "jQ" "FormData" "google")))
  '(js3-indent-dots t)
  '(js3-lazy-dots nil)
  '(menu-bar-mode t)
@@ -181,6 +183,9 @@
 
 (add-hook 'js3-mode-hook 'rainbow-delimiters-mode)
 
+(add-hook 'js3-mode-hook
+          (lambda () (flycheck-mode t)))
+
 ;;;;;;;;;;
 ;; MISC ;;
 ;;;;;;;;;;
@@ -191,6 +196,19 @@
 
 ;; set company-mode's dabbrev backend to be case sensitive
 (setq company-dabbrev-downcase nil)
+
+;; Set replace-string to be case sensitive
+(defadvice replace-string (around turn-off-case-fold-search)
+  (let ((case-fold-search nil))
+    ad-do-it))
+
+(ad-activate 'replace-string)
+
+;; Tell dired not to open a new buffer for every directory
+(diredp-toggle-find-file-reuse-dir 1)
+
+;; Set default line-wrapping to truncate
+(set-default 'truncate-lines t)
 
 (provide 'custom)
 

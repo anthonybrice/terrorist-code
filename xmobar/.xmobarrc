@@ -1,18 +1,10 @@
 Config { font = "xft:enriqueta:size=15:antialias=true:hinting=true:style=Bold"
-       -- , bgColor = "#bae4ee"
-       -- , fgColor = "black"
        , bgColor = "#BAE4EE"
        , fgColor = "#292929"
-       -- , border = BottomB
-       -- , borderColor = "#E0E0E0"
        , position = Top
        , lowerOnStart = True
        , hideOnStart = False
-       , commands = [ Run BatteryP ["BAT0"] [ "-t", "Batt: <watts>, <left>% / <timeleft>"
-                                            , "--"
-                                            , "-O", "<fc=#007a7c>On</fc> - "
-                                            , "-i", ""
-                                            ] 20
+       , commands = [ Run BatteryP ["BAT0"] [] 20
                     , Run Date "%a, %b %d, %Y | %l:%M %P" "date" 10
                     , Run UnsafeStdinReader
                     , Run Volume "default" "Master" [ "--template" , "<action=`amixer -q set Master toggle`>Vol: <status></action>"

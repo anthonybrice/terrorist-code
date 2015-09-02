@@ -28,7 +28,7 @@ cabal() {
     command cabal "$@"
 }
 
-# # The following lines were added by compinstall
+# The following lines were added by compinstall
 # zstyle :compinstall filename '/home/anthony/.zshrc'
 
 # autoload -Uz compinit
@@ -49,9 +49,9 @@ contains() {
 
 # Print keys and values for zsh highlighting
 for k in "${(@k)ZSH_HIGHLIGHT_STYLES}"; do
-    # echo "$k -> $ZSH_HIGHLIGHT_STYLES[$k]"
     ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=red,bold/fg=yellow,bold}
     ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=green,bold/fg=red}
     ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=green/fg=red,bold}
-    # echo "$k -> $ZSH_HIGHLIGHT_STYLES[$k]"
 done
+
+zstyle ':completion:*' rehash true
