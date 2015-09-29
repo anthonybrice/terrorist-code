@@ -17,4 +17,5 @@ export path
 export EDITOR="emacsclient -t"
 export MAKEFLAGS="-j4"
 export MANWIDTH=72
+export TEXMFHOME=$HOME/.texmf
 #export XDG_CONFIG_HOME
