@@ -251,6 +251,9 @@
 ;; Set default line-wrapping to truncate
 (set-default 'truncate-lines t)
 
+;; Set TEXMFHOME
+(setenv "TEXMFHOME" (shell-command-to-string "echo -n $TEXMFHOME"))
+
 (provide 'custom)
 
 ;;; custom.el ends here

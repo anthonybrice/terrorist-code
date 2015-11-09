@@ -74,7 +74,7 @@
 \RequirePackage[euler-digits,euler-hat-accent]{eulervm}
 \RequirePackage{cabin}
 \RequirePackage[ activate={true,nocompatibility},final,tracking=true,%
-  kerning=true,spacing=true]{microtype}
+  kerning=true,spacing=]{microtype}
 \renewcommand{\textbf}{\textsf}
 
 \RequirePackage{newfloat}
