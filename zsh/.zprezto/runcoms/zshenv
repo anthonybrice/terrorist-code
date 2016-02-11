@@ -15,7 +15,7 @@ path=($HOME/bin $HOME/.cabal/bin $HOME/.local/bin $path)
 export path
 
 export EDITOR="emacsclient -t"
-export MAKEFLAGS="-j4"
+export MAKEFLAGS="-j2"
 export MANWIDTH=72
 export TEXMFHOME=$HOME/.texmf
 #export XDG_CONFIG_HOME

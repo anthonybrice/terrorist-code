@@ -75,42 +75,16 @@
 \RequirePackage{cabin}
 \RequirePackage[ activate={true,nocompatibility},final,tracking=true,%
   kerning=true,spacing=]{microtype}
-\renewcommand{\textbf}{\textsf}
-
+%\renewcommand{\textbf}{\textsf}
+\RequirePackage{caption}
 \RequirePackage{newfloat}
-\DeclareFloatingEnvironment[name=Listing]{mylisting}
-
-\newenvironment{listingenv} {
-  \begin{mylisting}
-} {
-  \end{mylisting}
-}
-
-%\RequirePackage{subcaption}
-%\captionsetup{compatibility=false}
-
-\RequirePackage{listings}
+\RequirePackage[newfloat]{minted}
+%\captionsetup[listing]{position=below}
+\usemintedstyle{bw}
+\geometry{textwidth=.533\paperwidth}
+\setminted{bgcolor=LightGray,fontsize=\footnotesize,frame=leftline,linenos}
+\renewcommand{\theFancyVerbLine}{\ttfamily {\scriptsize \arabic{FancyVerbLine}}}
 \RequirePackage{inconsolata}
-\lstset{basicstyle=\ttfamily}
-
-% \RequirePackage[scaled]{berasans}
-% \RequirePackage[T1]{fontenc}
-% \RequirePackage{listings,xcolor}
-% %\lstloadlanguages{[5.2]Mathematica}
-% \lstset{language=Mathematica}
-
-% \lstset{basicstyle={\sffamily\footnotesize},
-%   numbers=left,
-%   numberstyle=\tiny\color{gray},
-%   numbersep=5pt,
-%   breaklines=true,
-%   captionpos={t},
-%   frame={lines},
-%   rulecolor=\color{black},
-%   framerule=0.5pt,
-%   columns=flexible,
-%   tabsize=2
-% }
 
 % Standardize command font styles and environments
 \newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
@@ -177,3 +151,18 @@
 }
 
 %\renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}\textsf{#1}}%
+
+\RequirePackage{tikz}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows, positioning, fit}
+
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum
+height=1cm, text centered, draw=black]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110,
+minimum width=3cm, minimum height=1cm, text centered, draw=black]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text
+centered, draw=black]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text
+centered, draw=black]
+\tikzstyle{preprocess} = [rectangle split, rectangle split horizontal, rectangle
+split parts=3, minimum height=1cm, draw=black]
+\tikzstyle{arrow} = [thick,->,>=stealth]

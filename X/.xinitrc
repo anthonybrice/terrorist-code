@@ -23,7 +23,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 xrdb -merge .Xresources
 
 # Set the background image and the mouse pointer
-feh --bg-fill /home/anthony/Pictures/beach.png
+feh --bg-fill /home/anthony/Documents/Pictures/beach.png
 xsetroot -cursor_name left_ptr -bg "#BAE4EE"
 
 #############
@@ -42,8 +42,8 @@ isavailable dunst && dunst -config .dunstrc &
 isavailable syndaemon && syndaemon -t -k -d -i 2
 
 
-isavailable xss-lock && isavailable xscreensaver \
-    && xss-lock -- xscreensaver-command --lock &
+#isavailable xss-lock && isavailable xscreensaver \
+#    && xss-lock -- xscreensaver-command --lock &
 
 isavailable synclient && synclient PalmDetect=1 TapButton2=3 TapButton3=2 \
     FingerHigh=105 FingerLow=100 HorizTwoFingerScroll=1 PalmMinWidth=14 &

@@ -80,7 +80,7 @@ myClientMask = structureNotifyMask .|. enterWindowMask .|. propertyChangeMask
 myConfig = defaultConfig
   { terminal = myTerminal -- urxvt config in ~/.Xresources
   , manageHook = myManageHooks
-  , startupHook = setWMName "LG3D"
+  , startupHook = setWMName "LG3D" -- What is this for?
   , layoutHook = smartBorders $ avoidStruts myLayoutHook
   , focusedBorderColor = currentWindowColor
   , logHook = dynamicLogWithPP myPP
@@ -123,6 +123,6 @@ myConfig = defaultConfig
                         ]
         manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
           where h = 1  -- height, 100%
-                w = 0.42  -- width, 50%
+                w = 0.42  -- width, 42%
                 t = 0  -- distance from top, 0%
                 l = 0  -- distance from left, 0%
