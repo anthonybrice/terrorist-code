@@ -41,8 +41,7 @@ values."
      colors
      (latex :variables
             latex-enable-auto-fill t
-            latex-build-command "LaTeX"
-            TeX-PDF-mode 1)
+            latex-build-command "LaTeX")
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -252,21 +251,10 @@ in `dotspacemacs/user-config'."
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
-  (dotspacemacs/user-global)
-
-  (dotspacemacs/user-latex)
-  )
-
-(defun dotspacemacs/user-global ()
-  "Configuration for my global things.
-This function is called from dotspacemacs/user-config."
   (rainbow-mode 1)
   (add-hook 'before-save-hook 'whitespace-cleanup)
-  )
 
-(defun dotspacemacs/user-latex ()
-  "Configuration for LaTeX-related things.
-This function is called from dotspacemacs/user-config."
+  (TeX-PDF-mode 1)
   (setenv "TEXMFHOME" (shell-command-to-string "echo -n $TEXMFHOME"))
   (add-to-list 'TeX-view-program-list
                '("Zathura"
