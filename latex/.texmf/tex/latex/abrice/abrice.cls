@@ -152,6 +152,8 @@
 
 %\renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}\textsf{#1}}%
 
+\RequirePackage{siunitx}
+
 \RequirePackage{tikz}
 \usetikzlibrary{shapes.multipart, shapes.geometric, arrows, positioning, fit}
 
@@ -166,3 +168,14 @@ centered, draw=black]
 \tikzstyle{preprocess} = [rectangle split, rectangle split horizontal, rectangle
 split parts=3, minimum height=1cm, draw=black]
 \tikzstyle{arrow} = [thick,->,>=stealth]
+
+\tikzstyle[scale] = [regular polygon, regular polygon sides=3, draw=black, ]
+
+\tikzset{
+  scaler/.style={draw=black, isosceles triangle, minimum
+    height=4.5em},
+  node rotated/.style = {rotate=270},
+  border rotated/.style = {shape border rotate=270},
+  cosiner/.style = {draw=black, rectangle, minimum height=4.5em, minimum
+    width=5em}
+}

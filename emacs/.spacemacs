@@ -34,7 +34,7 @@ values."
      ;;        shell-default-position 'bottom)
      spell-checking
      syntax-checking
-     version-control
+     ;; version-control
 
      ;; My packs
      themes-megapack
@@ -42,12 +42,21 @@ values."
      (latex :variables
             latex-enable-auto-fill t
             latex-build-command "LaTeX")
+     semantic
+     cscope
+     elm
+     haskell
+     html
+     sql
+     pandoc
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages
+   '(js3-mode
+     )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -103,18 +112,19 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(zenburn
-                         spacemacs-dark
-                         spacemacs-light
-                         solarized-light
-                         solarized-dark
-                         leuven
-                         monokai)
+                         ;; spacemacs-dark
+                         ;; spacemacs-light
+                         ;; solarized-light
+                         ;; solarized-dark
+                         ;; leuven
+                         ;; monokai
+                         )
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+   dotspacemacs-default-font '("inconsolata"
+                               :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1)
@@ -237,7 +247,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
+   dotspacemacs-whitespace-cleanup 'all
    ))
 
 (defun dotspacemacs/user-init ()
@@ -251,19 +261,27 @@ in `dotspacemacs/user-config'."
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
-  (rainbow-mode 1)
-  (add-hook 'before-save-hook 'whitespace-cleanup)
+  (add-hook 'text-mode-hook (lambda () (rainbow-mode t)))
+  (setenv "PATH" (shell-command-to-string "echo -n $PATH"))
 
-  (TeX-PDF-mode 1)
   (setenv "TEXMFHOME" (shell-command-to-string "echo -n $TEXMFHOME"))
-  (add-to-list 'TeX-view-program-list
-               '("Zathura"
-                 ("zathura "
-                  (mode-io-correlate " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\" ")
-                  " %o")
-                 "zathura"))
-  (add-to-list 'TeX-view-program-selection
-               '(output-pdf "Zathura"))
+  (with-eval-after-load "tex"
+    (add-to-list 'TeX-view-program-list
+                    '("Zathura"
+                      ("zathura "
+                       (mode-io-correlate " --synctex-forward
+                       %n:0:%b -x \"emacsclient +%{line}
+                       %{input}\" ")
+                       " %o")
+                      "zathura"))
+    (add-to-list 'TeX-view-program-selection
+                    '(output-pdf "Zathura"))
+    (TeX-PDF-mode 1)
+    )
+
+  (with-eval-after-load "elm"
+    (elm-tags-on-save t)
+    (elm-tags-exclude-elm-stuff nil))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

@@ -11,11 +11,11 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
 fi
 
 typeset -U path
-path=($HOME/bin $HOME/.cabal/bin $HOME/.local/bin $path)
+path=($HOME/bin $HOME/.cabal/bin $HOME/.local/bin $HOME/.npm-packages/bin $path)
 export path
 
 export EDITOR="emacsclient -t"
 export MAKEFLAGS="-j2"
 export MANWIDTH=72
 export TEXMFHOME=$HOME/.texmf
-#export XDG_CONFIG_HOME
+#export XDG_CONFIG_HOME=$HOME/.config
