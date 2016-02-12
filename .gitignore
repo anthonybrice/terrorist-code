@@ -35,3 +35,6 @@ history.*
 ghc-mod
 ghc-modi
 kbd-backlight
+
+# emacs auctex
+**/auto/*

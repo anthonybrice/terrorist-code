@@ -23,7 +23,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 xrdb -merge .Xresources
 
 # Set the background image and the mouse pointer
-feh --bg-fill /home/anthony/Documents/Pictures/beach.png
+feh --bg-fill /home/anthony/Pictures/beach.png
 xsetroot -cursor_name left_ptr -bg "#BAE4EE"
 
 #############
@@ -35,7 +35,7 @@ export SSH_AUTH_SOCK
 
 isavailable ./bin/urxvtcd && ./bin/urxvtcd &
 
-isavailable compton && compton -b --vsync opengl --backend glx
+isavailable compton && compton -cb --backend glx --vsync opengl-swc --paint-on-overlay
 
 isavailable dunst && dunst -config .dunstrc &
 
