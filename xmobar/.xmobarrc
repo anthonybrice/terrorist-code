@@ -2,7 +2,7 @@ Config { font = "xft:enriqueta:size=15:antialias=true:hinting=true:style=Bold"
        , bgColor = "#BAE4EE"
        , fgColor = "#292929"
        , position = Top
-       , lowerOnStart = True
+       --, lowerOnStart = True
        , hideOnStart = False
        , commands = [ Run BatteryP ["BAT0"] [] 20
                     , Run Date "%a, %b %d, %Y | %l:%M %P" "date" 10

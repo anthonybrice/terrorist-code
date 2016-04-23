@@ -41,7 +41,6 @@ isavailable dunst && dunst -config .dunstrc &
 
 isavailable syndaemon && syndaemon -t -k -d -i 2
 
-
 #isavailable xss-lock && isavailable xscreensaver \
 #    && xss-lock -- xscreensaver-command --lock &
 

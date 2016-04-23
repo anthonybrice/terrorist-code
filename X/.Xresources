@@ -21,7 +21,7 @@ URxvt*.transparent: true
 ! URxvt*.shading: 0 to 99 darkens, 101 to 200 lightens
 URxvt*.shading: 160
 URxvt*.font: xft:Inconsolata for Powerline:antialias=true:hinting=true:13
-URxvt*.boldFont: xft:inconsolata:antialias=true:hinting=true:13:style=bold
+URxvt*.boldFont: xft:Inconsolatazi4-Bold:antialias=true:hinting=true:13:style=bold
 URxvt*.scrollstyle: plain
 URxvt*.scrollBar_right: True
 URxvt*.scrollBarFloating: True

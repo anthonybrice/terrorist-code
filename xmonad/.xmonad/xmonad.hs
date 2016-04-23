@@ -8,7 +8,7 @@ import           XMonad
 import           XMonad.Actions.CycleWS       (nextWS, prevWS)
 import           XMonad.Actions.NoBorders     (toggleBorder)
 import           XMonad.Hooks.DynamicLog
-import           XMonad.Hooks.ManageDocks     (avoidStruts, manageDocks)
+import           XMonad.Hooks.ManageDocks     (avoidStruts, manageDocks, docksEventHook)
 import           XMonad.Hooks.ManageHelpers   (doFullFloat, isDialog,
                                                isFullscreen)
 import           XMonad.Hooks.SetWMName       (setWMName)
@@ -23,6 +23,7 @@ import           XMonad.Util.EZConfig         (additionalKeysP)
 import           XMonad.Util.NamedWindows     (getName)
 import           XMonad.Util.Scratchpad       (scratchpadManageHook,
                                                scratchpadSpawnActionTerminal)
+import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
 
 import           Control.Applicative          ((<$>))
 import           Data.List                    (isInfixOf, (\\))
@@ -77,11 +78,15 @@ myClientMask = structureNotifyMask .|. enterWindowMask .|. propertyChangeMask
                .|. focusChangeMask
 
 -- Main configuration, override the defaults to your liking
-myConfig = defaultConfig
+myConfig = ewmh defaultConfig
   { terminal = myTerminal -- urxvt config in ~/.Xresources
   , manageHook = myManageHooks
   , startupHook = setWMName "LG3D" -- What is this for?
   , layoutHook = smartBorders $ avoidStruts myLayoutHook
+  , handleEventHook = mconcat
+    [ docksEventHook
+    , handleEventHook defaultConfig <+> fullscreenEventHook
+    ]
   , focusedBorderColor = currentWindowColor
   , logHook = dynamicLogWithPP myPP
   , modMask = mod4Mask -- Rebind Mod to the Windows key
@@ -100,8 +105,8 @@ myConfig = defaultConfig
   , ("<XF86AudioMute>", spawn "amixer set Master toggle")
   , ("<XF86MonBrightnessDown>", spawn "xbacklight -10")
   , ("<XF86MonBrightnessUp>", spawn "xbacklight +10")
-  , ("<XF86KbdBrightnessDown>", spawn "sudo kbd-backlight down")
-  , ("<XF86KbdBrightnessUp>", spawn "sudo kbd-backlight up")
+  , ("<XF86KbdBrightnessDown>", spawn "kbdlight down")
+  , ("<XF86KbdBrightnessUp>", spawn "kbdlight up")
   , ("M4-u", focusUrgent)
   , ("M4-<Left>", prevWS)
   , ("M4-<Right>", nextWS)
