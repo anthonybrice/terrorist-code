@@ -11,7 +11,7 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
 fi
 
 typeset -U path
-path=($HOME/bin $HOME/.cabal/bin $HOME/.local/bin $HOME/.npm-packages/bin $path)
+path=($HOME/bin $HOME/.cabal/bin $HOME/.local/bin $HOME/.npm-global/bin $path)
 export path
 
 export EDITOR="emacsclient -t"
