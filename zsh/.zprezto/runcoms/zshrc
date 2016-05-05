@@ -28,12 +28,19 @@ cabal() {
     command cabal "$@"
 }
 
+function chpwd() {
+    emulate -L zsh
+    ls
+}
+
 # The following lines were added by compinstall
 # zstyle :compinstall filename '/home/anthony/.zshrc'
 
 # autoload -Uz compinit
 # compinit
 # End of lines added by compinstall
+
+#eval $(keychain --eval --quiet id_rsa)
 
 contains() {
     string="$1"

@@ -32,6 +32,7 @@ xsetroot -cursor_name left_ptr -bg "#BAE4EE"
 
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
+systemctl --user import-environment SSH_AUTH_SOCK
 
 isavailable ./bin/urxvtcd && ./bin/urxvtcd &
 
