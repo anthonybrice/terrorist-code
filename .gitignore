@@ -38,3 +38,6 @@ kbd-backlight
 
 # emacs auctex
 **/auto/*
+
+# weird spacemacs shit
+.#*

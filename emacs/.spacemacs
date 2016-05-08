@@ -49,13 +49,15 @@ values."
      html
      sql
      pandoc
+     javascript
+     yaml
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
-   '(js3-mode
+   '(;;js3-mode
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -263,6 +265,7 @@ This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
   (add-hook 'text-mode-hook (lambda () (rainbow-mode t)))
   (setenv "PATH" (shell-command-to-string "echo -n $PATH"))
+  (add-to-list 'exec-path "/home/anthony/.npm-global/bin")
 
   (setenv "TEXMFHOME" (shell-command-to-string "echo -n $TEXMFHOME"))
   (with-eval-after-load "tex"
@@ -281,6 +284,14 @@ layers configuration. You are free to put any user code."
   (with-eval-after-load "elm"
     (elm-tags-on-save t)
     (elm-tags-exclude-elm-stuff nil))
+
+  (add-hook
+   'js2-mode-hook
+   (lambda ()
+     (setq js2-strict-missing-semi-warning nil)
+     (setq js2-basic-offset 2)
+     (setq electric-indent-mode nil)
+     ))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -357,6 +368,9 @@ layers configuration. You are free to put any user code."
     ("20e359ef1818a838aff271a72f0f689f5551a27704bf1c9469a5c2657b417e6c" "3cc2385c39257fed66238921602d8104d8fd6266ad88a006d0a4325336f5ee02" "b7b2cd8c45e18e28a14145573e84320795f5385895132a646ff779a141bbda7e" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
  '(fci-rule-color "#383838" t)
  '(font-latex-fontify-script nil)
+ '(js2-bounce-indent-p t)
+ '(js2-global-externs (quote ("require" "process" "console")))
+ '(js3-global-externs (quote ("require" "process" "console")))
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))

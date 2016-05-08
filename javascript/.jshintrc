@@ -1,0 +1,6 @@
+{ "esversion": 6
+, "laxcomma": true
+, "asi": true
+, "strict": "global"
+, "node": true
+}
