@@ -35,7 +35,6 @@ zstyle ':prezto:load' pmodule \
   'command-not-found' \
   'history' \
   'git' \
-  'gpg' \
   'node' \
   'pacman' \
   'ssh' \
@@ -43,8 +42,8 @@ zstyle ':prezto:load' pmodule \
   'spectrum' \
   'utility' \
   'completion' \
-  'fasd' \
   'syntax-highlighting' \
+  'history-substring-search' \
   'prompt'
 
 #
