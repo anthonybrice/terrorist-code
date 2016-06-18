@@ -57,7 +57,10 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
-   '(;;js3-mode
+   '(systemd
+     pkgbuild-mode
+     gnome-c-style
+     matlab-mode
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -263,6 +266,7 @@ in `dotspacemacs/user-config'."
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
+  (setq-default tab-width 8)
   (add-hook 'text-mode-hook (lambda () (rainbow-mode t)))
   (setenv "PATH" (shell-command-to-string "echo -n $PATH"))
   (add-to-list 'exec-path "/home/anthony/.npm-global/bin")
@@ -278,8 +282,7 @@ layers configuration. You are free to put any user code."
                    "zathura"))
     (add-to-list 'TeX-view-program-selection
                  '(output-pdf "Zathura"))
-    (TeX-PDF-mode 1)
-    )
+    (TeX-PDF-mode 1))
 
   (with-eval-after-load "elm"
     (elm-tags-on-save t)
@@ -290,9 +293,30 @@ layers configuration. You are free to put any user code."
    (lambda ()
      (setq js2-strict-missing-semi-warning nil)
      (setq js2-basic-offset 2)
-     (setq electric-indent-mode nil)
-     ))
-  )
+     (setq electric-indent-mode nil)))
+
+  (add-hook
+   'fortran-mode-hook
+   (lambda ()
+     (define-key key-translation-map (kbd "C-c n") (kbd "¬"))
+     (setq tab-width 8)
+     (setq indent-tabs-mode 1)
+     (define-key fortran-mode-map (kbd "TAB") 'self-insert-command)
+     (setq fortran-comment-line-start "#")))
+
+  (add-hook
+   'c-mode-hook
+   (lambda ()
+     (setq c-default-style "linux"
+           c-basic-offset 8
+           tab-width 8
+           indent-tabs-mode t)))
+
+  (setq mouse-wheel-scroll-amount '(2 ((shift) . 1)))
+  (setq mouse-wheel-progressive-speed nil)
+  (setq mouse-wheel-follow-mouse 't)
+
+  (setq tramp-default-method "ssh"))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -368,13 +392,16 @@ layers configuration. You are free to put any user code."
     ("20e359ef1818a838aff271a72f0f689f5551a27704bf1c9469a5c2657b417e6c" "3cc2385c39257fed66238921602d8104d8fd6266ad88a006d0a4325336f5ee02" "b7b2cd8c45e18e28a14145573e84320795f5385895132a646ff779a141bbda7e" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
  '(fci-rule-color "#383838" t)
  '(font-latex-fontify-script nil)
+ '(haskell-stylish-on-save t t)
  '(js2-bounce-indent-p t)
  '(js2-global-externs (quote ("require" "process" "console")))
  '(js3-global-externs (quote ("require" "process" "console")))
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(paradox-github-token t)
  '(require-final-newline t)
+ '(sh-backslash-column 80)
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
    (quote

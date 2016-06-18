@@ -42,6 +42,8 @@ function chpwd() {
 
 #eval $(keychain --eval --quiet id_rsa)
 
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
 contains() {
     string="$1"
     substring="$2"

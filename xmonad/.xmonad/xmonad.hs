@@ -1,37 +1,28 @@
 -- xmonad.hs
 
+{-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE FlexibleContexts #-}
 
+import           Data.List                   (isInfixOf)
 
 import           XMonad
-import           XMonad.Actions.CycleWS       (nextWS, prevWS)
-import           XMonad.Actions.NoBorders     (toggleBorder)
+import           XMonad.Actions.CycleWS      (nextWS, prevWS)
+import           XMonad.Actions.NoBorders    (toggleBorder)
 import           XMonad.Hooks.DynamicLog
-import           XMonad.Hooks.ManageDocks     (avoidStruts, manageDocks, docksEventHook)
-import           XMonad.Hooks.ManageHelpers   (doFullFloat, isDialog,
-                                               isFullscreen)
-import           XMonad.Hooks.SetWMName       (setWMName)
-import           XMonad.Hooks.UrgencyHook     (UrgencyHook (..), focusUrgent,
-                                               withUrgencyHook)
-import           XMonad.Layout.LayoutModifier
+import           XMonad.Hooks.EwmhDesktops   (ewmh, fullscreenEventHook)
+import           XMonad.Hooks.ManageDocks    (avoidStruts, docksEventHook,
+                                              manageDocks)
+import           XMonad.Hooks.ManageHelpers  (doFullFloat, isDialog,
+                                              isFullscreen)
+import           XMonad.Hooks.SetWMName      (setWMName)
+import           XMonad.Hooks.UrgencyHook    (focusUrgent)
 import           XMonad.Layout.NoBorders
-import           XMonad.Layout.ResizableTile  (MirrorResize (..),
-                                               ResizableTall (..))
-import qualified XMonad.StackSet              as W
-import           XMonad.Util.EZConfig         (additionalKeysP)
-import           XMonad.Util.NamedWindows     (getName)
-import           XMonad.Util.Scratchpad       (scratchpadManageHook,
-                                               scratchpadSpawnActionTerminal)
-import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
-
-import           Control.Applicative          ((<$>))
-import           Data.List                    (isInfixOf, (\\))
-import           Data.Monoid                  (All (..))
-
--- The main logger class.
-mainLogger :: String
-mainLogger = "XMonad"
+import           XMonad.Layout.ResizableTile (MirrorResize (..),
+                                              ResizableTall (..))
+import qualified XMonad.StackSet             as W
+import           XMonad.Util.EZConfig        (additionalKeysP)
+import           XMonad.Util.Scratchpad      (scratchpadManageHook,
+                                              scratchpadSpawnActionTerminal)
 
 -- The official "Focused UI Element" color.
 currentWindowColor :: String
@@ -73,19 +64,15 @@ myWorkspaces = clickable . map xmobarEscape $
           where doubleLts '<' = "<<"
                 doubleLts x = [x]
 
-myClientMask :: EventMask
-myClientMask = structureNotifyMask .|. enterWindowMask .|. propertyChangeMask
-               .|. focusChangeMask
-
 -- Main configuration, override the defaults to your liking
-myConfig = ewmh defaultConfig
+myConfig = ewmh def
   { terminal = myTerminal -- urxvt config in ~/.Xresources
   , manageHook = myManageHooks
-  , startupHook = setWMName "LG3D" -- What is this for?
+  , startupHook = setWMName "LG3D" -- this fixes xmonad startup
   , layoutHook = smartBorders $ avoidStruts myLayoutHook
   , handleEventHook = mconcat
     [ docksEventHook
-    , handleEventHook defaultConfig <+> fullscreenEventHook
+    , handleEventHook def <+> fullscreenEventHook
     ]
   , focusedBorderColor = currentWindowColor
   , logHook = dynamicLogWithPP myPP
@@ -117,7 +104,6 @@ myConfig = ewmh defaultConfig
              ++ " && eval \" exec $exe\"\"")
   ]
   where myLayoutHook = ResizableTall 1 (3/100) (1/2) []
-                       ||| Tall 1 (3/100) (1/2)
                        ||| Mirror (Tall 1 (3/100) (1/2))
                        ||| Full
         myManageHooks = composeAll
