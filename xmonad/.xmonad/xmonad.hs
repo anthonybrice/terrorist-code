@@ -3,26 +3,31 @@
 {-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-import           Data.List                   (isInfixOf)
+import           Data.List                      (isInfixOf)
 
 import           XMonad
-import           XMonad.Actions.CycleWS      (nextWS, prevWS)
-import           XMonad.Actions.NoBorders    (toggleBorder)
+import           XMonad.Actions.CycleWS         (nextWS, prevWS)
+import           XMonad.Actions.NoBorders       (toggleBorder)
+import           XMonad.Config.Desktop          (desktopConfig)
 import           XMonad.Hooks.DynamicLog
-import           XMonad.Hooks.EwmhDesktops   (ewmh, fullscreenEventHook)
-import           XMonad.Hooks.ManageDocks    (avoidStruts, docksEventHook,
-                                              manageDocks)
-import           XMonad.Hooks.ManageHelpers  (doFullFloat, isDialog,
-                                              isFullscreen)
-import           XMonad.Hooks.SetWMName      (setWMName)
-import           XMonad.Hooks.UrgencyHook    (focusUrgent)
+import           XMonad.Hooks.EwmhDesktops      (ewmh, fullscreenEventHook)
+import           XMonad.Hooks.ManageDocks       (avoidStruts, docksEventHook,
+                                                 manageDocks)
+import           XMonad.Hooks.ManageHelpers     (doFullFloat, isDialog,
+                                                 isFullscreen)
+import           XMonad.Hooks.SetWMName         (setWMName)
+import           XMonad.Hooks.UrgencyHook       (focusUrgent)
 import           XMonad.Layout.NoBorders
-import           XMonad.Layout.ResizableTile (MirrorResize (..),
-                                              ResizableTall (..))
-import qualified XMonad.StackSet             as W
-import           XMonad.Util.EZConfig        (additionalKeysP)
-import           XMonad.Util.Scratchpad      (scratchpadManageHook,
-                                              scratchpadSpawnActionTerminal)
+import           XMonad.Layout.ResizableTile    (MirrorResize (..),
+                                                 ResizableTall (..))
+import qualified XMonad.StackSet                as W
+import           XMonad.Util.EZConfig           (additionalKeysP)
+import           XMonad.Util.Scratchpad         (scratchpadManageHook,
+                                                 scratchpadSpawnActionTerminal)
+import           XMonad.Util.Themes
+
+import           XMonad.Layout.Decoration
+import           XMonad.Layout.SimpleDecoration (shrinkText, simpleDeco)
 
 -- The official "Focused UI Element" color.
 currentWindowColor :: String
@@ -38,17 +43,18 @@ myBar :: String
 myBar = "xmobar"
 
 myTerminal :: String
-myTerminal = "urxvtcd"
+myTerminal = "urxvtc"
 
 myPP :: PP
-myPP = xmobarPP { ppCurrent = xmobarColor currentWindowColor "" . wrap "<" ">"
-                , ppTitle = xmobarColor currentWindowColor "" . shorten 60
+myPP = xmobarPP { ppCurrent = xmobarColor currentWindowColor "" . wrap "(" ")"
+                , ppTitle = notitle
                 , ppSep = " | "
                 , ppHidden = noScratchPad
                 , ppUrgent = xmobarColor urgentFg urgentBg . pad
                 }
   where
     noScratchPad ws = if "NSP" `isInfixOf` ws then "" else ws
+    notitle x = ""
 
 main :: IO ()
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
@@ -62,14 +68,14 @@ myWorkspaces = clickable . map xmobarEscape $
                       | (i,ws) <- zip [1..9] l, let n = i]
         xmobarEscape = (=<<) doubleLts
           where doubleLts '<' = "<<"
-                doubleLts x = [x]
+                doubleLts x   = [x]
 
 -- Main configuration, override the defaults to your liking
-myConfig = ewmh def
+myConfig = ewmh desktopConfig
   { terminal = myTerminal -- urxvt config in ~/.Xresources
   , manageHook = myManageHooks
   , startupHook = setWMName "LG3D" -- this fixes xmonad startup
-  , layoutHook = smartBorders $ avoidStruts myLayoutHook
+  , layoutHook = myLayoutHook
   , handleEventHook = mconcat
     [ docksEventHook
     , handleEventHook def <+> fullscreenEventHook
@@ -81,8 +87,7 @@ myConfig = ewmh def
   , borderWidth = 4
   , workspaces = myWorkspaces
   } `additionalKeysP`
-  [ ("M4-S-z", spawn "xscreensaver-command -lock")
-  , ("C-<Print>", spawn "sleep 0.2; scrot -s")
+  [ ("C-<Print>", spawn "sleep 0.2; scrot -s")
   , ("<Print>", spawn "scrot")
   , ("M4-a", sendMessage MirrorShrink)
   , ("M4-z", sendMessage MirrorExpand)
@@ -100,20 +105,33 @@ myConfig = ewmh def
   , ("M4-g", withFocused toggleBorder)
   , ("M4-p", spawn $ "j4-dmenu-desktop --term zsh --dmenu=\"dmenu -i -b -p 'exec '"
              ++ " -nb '#dac7b3' -nf black -sf black -sb '#e1f1f6' -fn"
-             ++ " 'inconsolatazi4-13:antialias=true:bold'"
+             ++ " 'inconsolata-13:antialias=true:bold'"
              ++ " && eval \" exec $exe\"\"")
   ]
-  where myLayoutHook = ResizableTall 1 (3/100) (1/2) []
-                       ||| Mirror (Tall 1 (3/100) (1/2))
-                       ||| Full
-        myManageHooks = composeAll
-                        [ isFullscreen --> doFullFloat
-                        , isDialog --> doF W.shiftMaster <+> doF W.swapDown
-                        , manageDocks
-                        , manageScratchPad
-                        ]
-        manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
-          where h = 1  -- height, 100%
-                w = 0.42  -- width, 42%
-                t = 0  -- distance from top, 0%
-                l = 0  -- distance from left, 0%
+  where
+    myManageHooks = composeAll
+                    [ isFullscreen --> doFullFloat
+                    , isDialog --> doF W.shiftMaster <+> doF W.swapDown
+                    , manageDocks
+                    , manageScratchPad
+                    ]
+    manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
+      where
+        h = 1  -- height, 100%
+        w = 0.42  -- width, 42%
+        t = 0  -- distance from top, 0%
+        l = 0  -- distance from left, 0%
+
+    myLayoutHook =
+      smartBorders $ avoidStruts layouts
+
+    theme = def
+            { activeColor = currentWindowColor
+            , decoWidth = 1152
+            , decoHeight = 14
+            }
+
+    layouts =
+      ResizableTall 1 (3/100) (1/2) []
+      ||| Mirror (Tall 1 (3/100) (1/2))
+      ||| Full

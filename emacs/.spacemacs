@@ -51,6 +51,8 @@ values."
      pandoc
      javascript
      yaml
+     scala
+     purescript
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -61,6 +63,7 @@ values."
      pkgbuild-mode
      gnome-c-style
      matlab-mode
+     gap-mode
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -107,7 +110,7 @@ values."
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
-   dotspacemacs-startup-lists '(recents projects)
+   dotspacemacs-startup-lists '(recents)
    ;; Number of recent files to show in the startup buffer. Ignored if
    ;; `dotspacemacs-startup-lists' doesn't include `recents'. (default 5)
    dotspacemacs-startup-recent-list-size 5
@@ -129,7 +132,7 @@ values."
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("inconsolata"
-                               :size 12
+                               :size 21
                                :weight normal
                                :width normal
                                :powerline-scale 1)
@@ -266,6 +269,11 @@ in `dotspacemacs/user-config'."
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
+
+  ;; ;; This is supposed to fix font rendering
+  ;; (add-to-list 'default-frame-alist '(font .  "inconsolata-11" ))
+  ;; (set-face-attribute 'default t :font  "inconsolata-11" )
+
   (setq-default tab-width 8)
   (add-hook 'text-mode-hook (lambda () (rainbow-mode t)))
   (setenv "PATH" (shell-command-to-string "echo -n $PATH"))
@@ -273,15 +281,15 @@ layers configuration. You are free to put any user code."
 
   (setenv "TEXMFHOME" (shell-command-to-string "echo -n $TEXMFHOME"))
   (with-eval-after-load "tex"
-    (add-to-list 'TeX-view-program-list
-                 '("Zathura"
-                   ("zathura "
-                    (mode-io-correlate
-                     " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\" ")
-                    " %o")
-                   "zathura"))
-    (add-to-list 'TeX-view-program-selection
-                 '(output-pdf "Zathura"))
+    ;; (add-to-list 'TeX-view-program-list
+    ;;              '("Zathura"
+    ;;                ("zathura "
+    ;;                 (mode-io-correlate
+    ;;                  " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\" ")
+    ;;                 " %o")
+    ;;                "zathura"))
+    ;; (add-to-list 'TeX-view-program-selection
+    ;;              '(output-pdf "Zathura"))
     (TeX-PDF-mode 1))
 
   (with-eval-after-load "elm"
@@ -316,7 +324,9 @@ layers configuration. You are free to put any user code."
   (setq mouse-wheel-progressive-speed nil)
   (setq mouse-wheel-follow-mouse 't)
 
-  (setq tramp-default-method "ssh"))
+  (setq tramp-default-method "ssh")
+
+  (global-unset-key (kbd "C-z")))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -325,6 +335,7 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(LaTeX-amsmath-label "eq:")
  '(LaTeX-command "latex -shell-escape")
  '(TeX-command-list
    (quote
@@ -389,9 +400,13 @@ layers configuration. You are free to put any user code."
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
-    ("20e359ef1818a838aff271a72f0f689f5551a27704bf1c9469a5c2657b417e6c" "3cc2385c39257fed66238921602d8104d8fd6266ad88a006d0a4325336f5ee02" "b7b2cd8c45e18e28a14145573e84320795f5385895132a646ff779a141bbda7e" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
+    ("4e753673a37c71b07e3026be75dc6af3efbac5ce335f3707b7d6a110ecb636a3" "868f73b5cf78e72ca2402e1d48675e49cc9a9619c5544af7bf216515d22b58e7" "cdbd0a803de328a4986659d799659939d13ec01da1f482d838b68038c1bb35e8" "20e359ef1818a838aff271a72f0f689f5551a27704bf1c9469a5c2657b417e6c" "3cc2385c39257fed66238921602d8104d8fd6266ad88a006d0a4325336f5ee02" "b7b2cd8c45e18e28a14145573e84320795f5385895132a646ff779a141bbda7e" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
+ '(evil-want-Y-yank-to-eol t)
  '(fci-rule-color "#383838" t)
  '(font-latex-fontify-script nil)
+ '(font-latex-math-environments
+   (quote
+    ("display" "displaymath" "equation" "eqnarray" "gather" "math" "multline" "align" "alignat" "xalignat" "xxalignat" "flalign" "IEEEeqnarray")))
  '(haskell-stylish-on-save t t)
  '(js2-bounce-indent-p t)
  '(js2-global-externs (quote ("require" "process" "console")))
@@ -399,8 +414,15 @@ layers configuration. You are free to put any user code."
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(package-selected-packages
+   (quote
+    (psci purescript-mode psc-ide hide-comnt uuidgen pug-mode org-projectile org-download mwim livid-mode skewer-mode simple-httpd link-hint intero hlint-refactor helm-hoogle git-link flyspell-correct-helm flyspell-correct eyebrowse evil-visual-mark-mode evil-unimpaired evil-ediff dumb-jump darkokai-theme company-ghci column-enforce-mode color-identifiers-mode gap-mode zonokai-theme zenburn-theme zen-and-art-theme yaml-mode ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe use-package underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit systemd sunny-day-theme sublime-themes subatomic256-theme subatomic-theme stickyfunc-enhance stekene-theme srefactor sql-indent spacemacs-theme spaceline spacegray-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smooth-scrolling smeargle slim-mode shm seti-theme scss-mode sass-mode reverse-theme restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme quelpa purple-haze-theme professional-theme popwin planet-theme pkgbuild-mode phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pcre2el pastels-on-dark-theme paradox pandoc-mode page-break-lines ox-pandoc orgit organic-green-theme org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noflet noctilux-theme niflheim-theme neotree naquadah-theme mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme matlab-mode material-theme markdown-toc majapahit-theme magit-gitflow macrostep lush-theme lorem-ipsum linum-relative light-soap-theme leuven-theme less-css-mode json-mode js2-refactor js-doc jbeans-theme jazz-theme jade-mode ir-black-theme inkpot-theme info+ indent-guide ido-vertical-mode hungry-delete htmlize hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-cscope helm-company helm-c-yasnippet helm-ag hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gnuplot gnome-c-style gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md gandalf-theme flycheck-pos-tip flycheck-haskell flycheck-elm flx-ido flatui-theme flatland-theme firebelly-theme fill-column-indicator farmhouse-theme fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu espresso-theme ensime emmet-mode elm-mode elisp-slime-nav dracula-theme django-theme define-word darktooth-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme company-web company-tern company-statistics company-quickhelp company-ghc company-cabal company-auctex colorsarenice-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized coffee-mode cmm-mode clues-theme clean-aindent-mode cherry-blossom-theme busybee-theme buffer-move bubbleberry-theme bracketed-paste birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(paradox-github-token t)
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(psc-ide-add-import-on-completion t t)
+ '(psc-ide-rebuild-on-save nil t)
  '(require-final-newline t)
+ '(safe-local-variable-values (quote ((makefile-backslash-column . 79))))
  '(sh-backslash-column 80)
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
@@ -429,8 +451,8 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background nil))))
- '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+ '(default ((((class color) (min-colors 4096)) (:foreground "#5f5f5f" :background "#fdfde7")) (((class color) (min-colors 256)) (:foreground "#5f5f5f" :background "#fdfde7")) (((class color) (min-colors 89)) (:foreground "#5f5f5f" :background "#fdfde7"))))
+ '(company-tooltip-common ((((class color) (min-colors 89)) (:background "#5f5f5f" :foreground "#5fafd7"))))
+ '(company-tooltip-common-selection ((((class color) (min-colors 89)) (:background "#767676" :foreground "#afd7ff" :bold t))))
  '(font-latex-verbatim-face ((t nil)))
  '(tex-verbatim ((t (:inherit nil)))))

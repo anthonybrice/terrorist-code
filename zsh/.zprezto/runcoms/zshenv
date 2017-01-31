@@ -15,7 +15,10 @@ path=($HOME/bin $HOME/.cabal/bin $HOME/.local/bin $HOME/.npm-global/bin $path)
 export path
 
 export EDITOR="emacsclient -t"
-export MAKEFLAGS="-j2"
+export MAKEFLAGS="-j4"
 export MANWIDTH=72
 export TEXMFHOME=$HOME/.texmf
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 #export XDG_CONFIG_HOME=$HOME/.config
+
+export LD_LIBRARY_PATH="/home/anthony/Repos/COMP445/dip/Linuxa64/lib"

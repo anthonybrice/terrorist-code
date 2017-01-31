@@ -72,9 +72,9 @@
 \RequirePackage[T1]{fontenc}
 \RequirePackage[boldsans]{ccfonts}
 \RequirePackage[euler-digits,euler-hat-accent]{eulervm}
-\RequirePackage{cabin}
-\RequirePackage[ activate={true,nocompatibility},final,tracking=true,%
-  kerning=true,spacing=]{microtype}
+
+\RequirePackage[protrusion=true,expansion=false,final,tracking=true,%
+  kerning=true]{microtype}
 %\renewcommand{\textbf}{\textsf}
 \RequirePackage{caption}
 \RequirePackage{newfloat}
@@ -117,7 +117,8 @@
 \DeclareMathOperator{\arcsech}{arcsech}
 \DeclareMathOperator{\arccsch}{arccsch}
 \DeclareMathOperator{\arccoth}{arccoth}
-
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\Aut}{Aut}
 
 
 % Use fancy symbols for footnotes
@@ -179,3 +180,6 @@ split parts=3, minimum height=1cm, draw=black]
   cosiner/.style = {draw=black, rectangle, minimum height=4.5em, minimum
     width=5em}
 }
+
+
+\RequirePackage{cabin}

@@ -12,16 +12,18 @@ Emacs*.pane.menubar.background: darkGrey
 Emacs*.pane.menubar.foreground: black
 Emacs*menubar.margin: 0
 Emacs*shadowThickness: 1
-Emacs*.font: inconsolatazi4
 
 !urxvt*depth: 32
 !urxvt*background: rgba:0000/0000/0200/c800
 
 URxvt*.transparent: true
 ! URxvt*.shading: 0 to 99 darkens, 101 to 200 lightens
-URxvt*.shading: 160
-URxvt*.font: xft:Inconsolata for Powerline:antialias=true:hinting=true:13
-URxvt*.boldFont: xft:Inconsolatazi4-Bold:antialias=true:hinting=true:13:style=bold
+URxvt*.shading: 165
+!URxvt*.font: xft:Inconsolata for Powerline:antialias=true:hinting=true:13
+!URxvt*.boldFont: xft:Inconsolatazi4-Bold:antialias=true:hinting=true:13:style=bold
+URxvt*.font: xft:Inconsolata:size=12:antialias=true:hinting=true
+URxvt*.boldFont: xft:Inconsolata:size=12:antialias=true:hinting=true:style=bold
+!URxvt*.letterSpace: -1
 URxvt*.scrollstyle: plain
 URxvt*.scrollBar_right: True
 URxvt*.scrollBarFloating: True
@@ -50,8 +52,8 @@ URxvt*.color3: #5a440d
 ! yellow
 ! * Used as newsbeuter fg against 4.
 
-URxvt*.color4: #00bfff
-! blue
+URxvt*.color4: #2b2b2b
+! purple
 ! * Used as newsbeuter bg against 3.
 
 URxvt*.color5: #800080
