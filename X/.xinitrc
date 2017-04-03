@@ -38,17 +38,19 @@ systemctl --user import-environment SSH_AUTH_SOCK
 
 isavailable compton \
             && compton -cb --backend glx --vsync opengl-swc \
-                       --paint-on-overlay --xrender-sync and --xrender-sync-fence
+                       --paint-on-overlay --xrender-sync --xrender-sync-fence
 
 # isavailable dunst && dunst -config .dunstrc &
 
-isavailable syndaemon && syndaemon -t -k -d -i 2
+isavailable syndaemon && syndaemon -tkdi 2
 
 isavailable xss-lock && isavailable i3lock \
     && xss-lock -- i3lock -n -i /home/anthony/Pictures/beach.png &
 
-isavailable synclient && synclient PalmDetect=1 TapButton2=3 TapButton3=2 \
-    FingerHigh=105 FingerLow=100 HorizTwoFingerScroll=1 PalmMinWidth=14 PalmMinZ=100 &
+isavailable synclient \
+    && synclient PalmDetect=1 TapButton2=3 TapButton3=2 FingerHigh=105 \
+                 FingerLow=100 HorizTwoFingerScroll=1 PalmMinWidth=14 \
+                 PalmMinZ=100 MaxTapTime=0 &
 
 isavailable xset && xset m 3/1 0
 

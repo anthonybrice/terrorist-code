@@ -82,7 +82,7 @@
 %\captionsetup[listing]{position=below}
 \usemintedstyle{bw}
 \geometry{textwidth=.533\paperwidth}
-\setminted{bgcolor=LightGray,fontsize=\footnotesize,frame=leftline,linenos}
+\setminted{bgcolor=LightGray,frame=leftline,linenos}
 \renewcommand{\theFancyVerbLine}{\ttfamily {\scriptsize \arabic{FancyVerbLine}}}
 \RequirePackage{inconsolata}
 
@@ -181,5 +181,7 @@ split parts=3, minimum height=1cm, draw=black]
     width=5em}
 }
 
-
 \RequirePackage{cabin}
+
+% Have long URLs break over hyphens and the like
+\def\UrlBigBreaks{\do\/\do-\do:}

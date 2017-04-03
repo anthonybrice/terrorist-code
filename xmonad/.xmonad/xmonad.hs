@@ -47,14 +47,14 @@ myTerminal = "urxvtc"
 
 myPP :: PP
 myPP = xmobarPP { ppCurrent = xmobarColor currentWindowColor "" . wrap "(" ")"
-                , ppTitle = notitle
+                , ppTitle = xmobarColor currentWindowColor "" . shorten 90
                 , ppSep = " | "
                 , ppHidden = noScratchPad
                 , ppUrgent = xmobarColor urgentFg urgentBg . pad
                 }
   where
     noScratchPad ws = if "NSP" `isInfixOf` ws then "" else ws
-    notitle x = ""
+    --notitle x = ""
 
 main :: IO ()
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
@@ -99,14 +99,13 @@ myConfig = ewmh desktopConfig
   , ("<XF86MonBrightnessUp>", spawn "xbacklight +10")
   , ("<XF86KbdBrightnessDown>", spawn "kbdlight down")
   , ("<XF86KbdBrightnessUp>", spawn "kbdlight up")
+  , ("<XF86HomePage>", windows $ W.greedyView "1")
   , ("M4-u", focusUrgent)
   , ("M4-<Left>", prevWS)
   , ("M4-<Right>", nextWS)
   , ("M4-g", withFocused toggleBorder)
-  , ("M4-p", spawn $ "j4-dmenu-desktop --term zsh --dmenu=\"dmenu -i -b -p 'exec '"
-             ++ " -nb '#dac7b3' -nf black -sf black -sb '#e1f1f6' -fn"
-             ++ " 'inconsolata-13:antialias=true:bold'"
-             ++ " && eval \" exec $exe\"\"")
+  , ("M4-p", spawn j4String)
+  , ("<XF86LaunchB>", spawn j4String)
   ]
   where
     myManageHooks = composeAll
@@ -135,3 +134,9 @@ myConfig = ewmh desktopConfig
       ResizableTall 1 (3/100) (1/2) []
       ||| Mirror (Tall 1 (3/100) (1/2))
       ||| Full
+
+    j4String =
+      "j4-dmenu-desktop --term zsh --dmenu=\"dmenu -i -b -p 'exec '"
+             ++ " -nb '#dac7b3' -nf black -sf black -sb '#e1f1f6' -fn"
+             ++ " 'inconsolata-13:antialias=true:bold'"
+             ++ " && eval \" exec $exe\"\""

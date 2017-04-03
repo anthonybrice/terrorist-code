@@ -41,3 +41,6 @@ kbd-backlight
 
 # weird spacemacs shit
 .#*
+
+# xmonad state
+*.state
