@@ -17,7 +17,7 @@ fi
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-alias man='man --no-justification'
+#alias man='man --no-justification'
 
 export ncpus=4
 cabal() {
@@ -42,7 +42,7 @@ function chpwd() {
 
 #eval $(keychain --eval --quiet id_rsa)
 
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+#export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 contains() {
     string="$1"
