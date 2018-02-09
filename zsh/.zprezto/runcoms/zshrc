@@ -3,7 +3,7 @@
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
-#   Anthony Brice <anthonybrice@lateachiever.com>
+#   Anthony Brice <whitebrice@gmail.com>
 #
 
 # Source Prezto.
@@ -13,20 +13,19 @@ fi
 
 # Customize to your needs...
 
+# Set path here rather than zshenv b/c /etc/profile (which is run after zshenv
+# but before this) adds a bunch of nix stuff to path
+path=($HOME/.local/bin $HOME/.nix-profile/bin $HOME/bin $HOME/.cabal/bin $HOME/.npm-global/bin $path)
+typeset -gU PATH path
+export path
+
+
 # Aliases
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-#alias man='man --no-justification'
 
 export ncpus=4
-cabal() {
-    if [ "$1" = install ]; then
-        shift
-        set -- install -j "$@"
-    fi
-    command cabal "$@"
-}
 
 function chpwd() {
     emulate -L zsh
@@ -56,7 +55,6 @@ contains() {
 
 # source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Print keys and values for zsh highlighting
 for k in "${(@k)ZSH_HIGHLIGHT_STYLES}"; do
     ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=red,bold/fg=yellow,bold}
     ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=green,bold/fg=red}
