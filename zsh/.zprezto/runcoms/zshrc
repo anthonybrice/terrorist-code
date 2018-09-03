@@ -15,7 +15,7 @@ fi
 
 # Set path here rather than zshenv b/c /etc/profile (which is run after zshenv
 # but before this) adds a bunch of nix stuff to path
-path=($HOME/.local/bin $HOME/.nix-profile/bin $HOME/bin $HOME/.cabal/bin $HOME/.npm-global/bin $path)
+path=($HOME/.local/bin $HOME/.npm-global/bin $HOME/.nix-profile/bin $HOME/bin $HOME/.cabal/bin $path)
 typeset -gU PATH path
 export path
 

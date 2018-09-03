@@ -271,7 +271,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup 'nil
+   dotspacemacs-whitespace-cleanup 'changed
    ))
 
 (defun dotspacemacs/user-init ()
@@ -292,7 +292,7 @@ layers configuration. You are free to put any user code."
 
   (setq-default tab-width 8)
   (add-hook 'text-mode-hook (lambda () (rainbow-mode t)))
-  (setq-default truncate-lines t)
+  ;; (setq-default truncate-lines t)
 
   (setenv "PATH" (shell-command-to-string "echo -n $PATH"))
   ;; (add-to-list 'exec-path "/Users/anthonybrice/.npm-global/bin")
@@ -368,6 +368,10 @@ layers configuration. You are free to put any user code."
     (if default-directory
         (browse-url-of-file (expand-file-name default-directory))
       (error "No `default-directory' to open")))
+
+  (add-hook
+   'spacemacs-buffer-mode-hook
+   (lambda () (set (make-local-variable 'mouse-1-click-follows-link) nil)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

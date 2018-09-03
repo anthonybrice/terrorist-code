@@ -78,12 +78,12 @@
 %\renewcommand{\textbf}{\textsf}
 \RequirePackage{caption}
 \RequirePackage{newfloat}
-\RequirePackage[newfloat]{minted}
+%\RequirePackage[newfloat]{minted}
 %\captionsetup[listing]{position=below}
-\usemintedstyle{bw}
-\geometry{textwidth=.533\paperwidth}
-\setminted{bgcolor=LightGray,frame=leftline,linenos}
-\renewcommand{\theFancyVerbLine}{\ttfamily {\scriptsize \arabic{FancyVerbLine}}}
+% \usemintedstyle{bw}
+% \geometry{textwidth=.533\paperwidth}
+% \setminted{bgcolor=LightGray,frame=leftline,linenos}
+% \renewcommand{\theFancyVerbLine}{\ttfamily {\scriptsize \arabic{FancyVerbLine}}}
 \RequirePackage{inconsolata}
 
 % Standardize command font styles and environments
