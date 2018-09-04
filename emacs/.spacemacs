@@ -148,7 +148,7 @@ values."
    ;;                             :width normal
    ;;                             :powerline-scale 1.1)
    dotspacemacs-default-font '("SF Mono"
-                               :size 11
+                               :size 17
                                :weight normal
                                :width normal
                                :powerling-scale 1)

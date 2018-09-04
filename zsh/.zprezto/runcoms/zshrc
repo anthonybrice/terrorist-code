@@ -19,7 +19,6 @@ path=($HOME/.local/bin $HOME/.npm-global/bin $HOME/.nix-profile/bin $HOME/bin $H
 typeset -gU PATH path
 export path
 
-
 # Aliases
 
 alias ls='ls --color=auto'
@@ -32,11 +31,14 @@ function chpwd() {
     ls
 }
 
-# The following lines were added by compinstall
-# zstyle :compinstall filename '/home/anthony/.zshrc'
+MANOPT="--no-justification"
+export MANOPT
 
-# autoload -Uz compinit
-# compinit
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/anthony/.zshrc'
+
+autoload -Uz compinit
+compinit
 # End of lines added by compinstall
 
 #eval $(keychain --eval --quiet id_rsa)
@@ -53,7 +55,7 @@ contains() {
     fi
 }
 
-# source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /home/anthony/.zprezto/modules/syntax-highlighting/external/zsh-syntax-highlighting.zsh
 
 for k in "${(@k)ZSH_HIGHLIGHT_STYLES}"; do
     ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=red,bold/fg=yellow,bold}

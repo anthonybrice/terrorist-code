@@ -34,11 +34,10 @@ eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
 systemctl --user import-environment SSH_AUTH_SOCK
 
-#isavailable ./bin/urxvtcd && ./bin/urxvtcd &
+isavailable urxvtd && urxvtd --quiet --opendisplay --fork
 
 isavailable compton \
-            && compton -cb --backend glx --vsync opengl-swc \
-                       --paint-on-overlay --xrender-sync --xrender-sync-fence
+            && compton --backend glx --shadow --daemon --unredir-if-possible
 
 # isavailable dunst && dunst -config .dunstrc &
 

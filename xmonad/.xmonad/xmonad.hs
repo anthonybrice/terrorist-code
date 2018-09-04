@@ -84,6 +84,7 @@ myConfig = ewmh desktopConfig
   , logHook = dynamicLogWithPP myPP
   , modMask = mod4Mask -- Rebind Mod to the Windows key
   , focusFollowsMouse = False
+  , clickJustFocuses = False
   , borderWidth = 4
   , workspaces = myWorkspaces
   } `additionalKeysP`

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-urxvtc "$@"
+urxvtc "$@" &> /dev/null
 if [ $? -eq 2 ]; then
-    urxvtd -q -o -f
-    utxvtc "$@"
+    urxvtd --quiet --opendisplay --fork
+    urxvtc "$@"
 fi

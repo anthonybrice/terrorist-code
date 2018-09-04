@@ -2,7 +2,7 @@
 
 Xft.antialias: 1
 Xft.autohint: 0
-Xft.dpi: 140
+Xft.dpi: 130
 Xft.hinting: 1
 Xft.hintstyle: hintfull
 Xft.lcdfilter: lcddefault
@@ -21,8 +21,8 @@ URxvt*.transparent: true
 URxvt*.shading: 165
 !URxvt*.font: xft:Inconsolata for Powerline:antialias=true:hinting=true:13
 !URxvt*.boldFont: xft:Inconsolatazi4-Bold:antialias=true:hinting=true:13:style=bold
-URxvt*.font: xft:Inconsolata:size=12:antialias=true:hinting=true
-URxvt*.boldFont: xft:Inconsolata:size=12:antialias=true:hinting=true:style=bold
+URxvt*.font: xft:SF Mono:size=10:antialias=true:hinting=true
+URxvt*.boldFont: xft:SF Mono:size=10:antialias=true:hinting=true:style=bold
 !URxvt*.letterSpace: -1
 URxvt*.scrollstyle: plain
 URxvt*.scrollBar_right: True

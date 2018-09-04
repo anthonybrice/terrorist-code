@@ -20,7 +20,6 @@ Config { font = "xft:Oswald-Medium:size=14:antialias=true:hinting=true:style=bol
                                                     , "-O"         , "<volume> [on]"
                                                     ] 10
                     , Run Wireless "wlp3s0" [] 20
-                    --, Run Com "bash" ["~/bin/battery.sh"] "myBattery" 60
                     ]
        , sepChar = "%"
        , alignSep = "}{"

@@ -21,6 +21,7 @@ export EDITOR='emacs'
 export VISUAL='nano'
 export PAGER='less'
 export MANWIDTH=72
+export MANOPT="--no-justification"
 
 #
 # Language
