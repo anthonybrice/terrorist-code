@@ -11,6 +11,7 @@ import           XMonad.Actions.NoBorders       (toggleBorder)
 import           XMonad.Config.Desktop          (desktopConfig)
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.EwmhDesktops      (ewmh, fullscreenEventHook)
+import XMonad.Layout.Fullscreen (fullscreenManageHook)
 import           XMonad.Hooks.ManageDocks       (avoidStruts, docksEventHook,
                                                  manageDocks)
 import           XMonad.Hooks.ManageHelpers     (doFullFloat, isDialog,
@@ -114,6 +115,7 @@ myConfig = ewmh desktopConfig
                     , isDialog --> doF W.shiftMaster <+> doF W.swapDown
                     , manageDocks
                     , manageScratchPad
+                    , fullscreenManageHook
                     ]
     manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
       where

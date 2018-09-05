@@ -36,8 +36,13 @@ systemctl --user import-environment SSH_AUTH_SOCK
 
 isavailable urxvtd && urxvtd --quiet --opendisplay --fork
 
+# compton should handle shadows and window fading, but we can't let compton take
+# over vsync from the driver
 isavailable compton \
-            && compton --backend glx --shadow --daemon --unredir-if-possible
+    && compton --backend glx --vsync none --unredir-if-possible \
+               --paint-on-overlay --shadow --fading --no-dock-shadow --daemon
+
+isavailable unclutter && unclutter &
 
 # isavailable dunst && dunst -config .dunstrc &
 
