@@ -1,7 +1,0 @@
-# My newsbeuter config
-
-auto-reload yes
-browser "firefox %u"
-confirm-exit yes
-cookie-cache "~/.newsbeuter/cookies.txt"
-
