@@ -1,0 +1,122 @@
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+# zmodload zsh/datetime
+# setopt PROMPT_SUBST
+# PS4='+$EPOCHREALTIME %N:%i> '
+
+# logfile=$(mktemp zsh_profile.XXXXXXXX)
+# echo "Logging to $logfile"
+# exec 3>&2 2>$logfile
+
+#setopt XTRACE
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Customize to your needs...
+
+alias ls='ls --color=auto'
+alias grep='ggrep --color=auto'
+# alias man='_() { echo $1; man -M $(brew --prefix)/opt/coreutils/libexec/gnuman $1 1>/dev/null 2>&1;  if [ "$?" -eq 0 ]; then man -M $(brew --prefix)/opt/coreutils/libexec/gnuman $1; else man $1; fi }; _'
+
+alias dbstart='nohup VBoxHeadless --startvm "Oracle11g32" &> /dev/null &'
+alias dbstop='VBoxManage controlvm Oracle11g32 poweroff'
+alias ll='ls -la'
+alias main='cd "$PROJECTS_DIR/main"'
+alias mci='mvn clean install -T 1C -Ddelta.skip=true -Dqunit.numThreads=8'
+alias qb='mvn clean install -T 1C -Ddelta.skip=true -Dcleanup.skip=true -Dqunit.numThreads=8 -DskipTests -Dtablespaces.skip=true -Dgulp.task=min'
+alias qqb='mvn install -T 1C -Ddelta.skip=true -Dcleanup.skip=true -Dqunit.numThreads=8 -DskipTests -Dtablespaces.skip=true -Dgulp.task=min'
+
+function chpwd() {
+    emulate -L zsh
+    ls
+}
+
+zstyle ':completion:*' rehash true
+
+# The following lines were added by compinstall
+zstyle :compinstall filename '/Users/abrice/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+# enable aws completions
+source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
+
+source $HOME/.zprezto/modules/syntax-highlighting/external/zsh-syntax-highlighting.zsh
+
+for k in "${(@k)ZSH_HIGHLIGHT_STYLES}"; do
+    ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=red,bold/fg=yellow,bold}
+    ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=green,bold/fg=red}
+    ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=green/fg=red,bold}
+done
+
+aws-developer() {
+  local account="$1"
+  local role="arn:aws:iam::${account}:role/cjorganization/CJDeveloperAccessRole"
+  local mfa_serial="arn:aws:iam::597974043991:mfa/abrice@cj.com"
+  local mfa_token="$2"
+
+  eval "$(aws sts assume-role \
+    --role-arn "$role" \
+    --role-session-name "bootstrap$$" \
+    --serial-number "$mfa_serial" \
+    --token-code "$mfa_token" \
+    --duration-seconds 43200 \
+    --query \
+       'Credentials |
+          join (`\n`,
+           values({
+             AccessKeyId: join(``, [`export AWS_ACCESS_KEY_ID=`,AccessKeyId]),
+             SecretAccessKey:join(``, [`export AWS_SECRET_ACCESS_KEY=`,SecretAccessKey]),
+             SessionToken:join(``, [`export AWS_SESSION_TOKEN=`,SessionToken])
+           }))' \
+    --output text)"
+}
+
+aws-provisioner() {
+  local account="$1"
+  local role="arn:aws:iam::${account}:role/cjorganization/CJProvisionerAccessRole"
+  local mfa_serial="GADT00008872"
+  local mfa_token="$2"
+
+  eval "$(aws sts assume-role \
+    --role-arn "$role" \
+    --role-session-name "bootstrap$$" \
+    --serial-number "$mfa_serial" \
+    --token-code "$mfa_token" \
+    --duration-seconds 3600 \
+    --query \
+       'Credentials |
+          join (`\n`,
+           values({
+             AccessKeyId: join(``, [`export AWS_ACCESS_KEY_ID=`,AccessKeyId]),
+             SecretAccessKey:join(``, [`export AWS_SECRET_ACCESS_KEY=`,SecretAccessKey]),
+             SessionToken:join(``, [`export AWS_SESSION_TOKEN=`,SessionToken])
+           }))' \
+    --output text)"
+}
+
+aws-end-session() {
+  eval $(env | sed -En 's/^(AWS_[^=]*)=.*$/unset \1/p')
+}
+
+aws-all() {
+    aws-developer 114272735376 $1
+    ~/repos/aws/access/aws-get-url.js
+}
+
+export NVM_DIR="$HOME/.nvm"
+# [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+# [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+
+# unsetopt XTRACE
+# exec 2>&3 3>&-
