@@ -33,6 +33,7 @@ alias main='cd "$PROJECTS_DIR/main"'
 alias mci='mvn clean install -T 1C -Ddelta.skip=true -Dqunit.numThreads=8'
 alias qb='mvn clean install -T 1C -Ddelta.skip=true -Dcleanup.skip=true -Dqunit.numThreads=8 -DskipTests -Dtablespaces.skip=true -Dgulp.task=min'
 alias qqb='mvn install -T 1C -Ddelta.skip=true -Dcleanup.skip=true -Dqunit.numThreads=8 -DskipTests -Dtablespaces.skip=true -Dgulp.task=min'
+alias stow='stow --dotfiles'
 
 function chpwd() {
     emulate -L zsh

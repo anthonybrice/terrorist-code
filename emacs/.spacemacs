@@ -348,6 +348,8 @@ you should place your code here."
   (global-set-key (kbd "C-a") 'beginning-of-line-or-indentation)
 
   (define-key key-translation-map (kbd "<s-mouse-1>") (kbd "<mouse-2>"))
+
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
