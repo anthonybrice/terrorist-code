@@ -60,6 +60,19 @@ for k in "${(@k)ZSH_HIGHLIGHT_STYLES}"; do
     ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=green/fg=red,bold}
 done
 
+abrice-upgrade() {
+    echo "Updating brew packages"
+    echo "<====================>"
+    brew update && brew upgrade
+
+    echo
+
+    echo "Updating global npm packages"
+    echo "<==========================>"
+    npm update -g --depth=0
+    echo "Done"
+}
+
 aws-developer() {
   local account="$1"
   local role="arn:aws:iam::${account}:role/cjorganization/CJDeveloperAccessRole"
@@ -110,9 +123,14 @@ aws-end-session() {
   eval $(env | sed -En 's/^(AWS_[^=]*)=.*$/unset \1/p')
 }
 
-aws-all() {
+function aws-all() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: aws-all <duo mobile aws key>"
+        return 1
+    fi
+
     aws-developer 114272735376 $1
-    ~/repos/aws/access/aws-get-url.js
+    aws-get-url.js
 }
 
 export NVM_DIR="$HOME/.nvm"

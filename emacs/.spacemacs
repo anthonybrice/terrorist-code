@@ -337,6 +337,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (intero-global-mode t)
   (setq js2-strict-missing-semi-warning nil)
+  (setq js-indent-level 2)
   (spacemacs/toggle-indent-guide-globally-on)
 
   (defun beginning-of-line-or-indentation ()
