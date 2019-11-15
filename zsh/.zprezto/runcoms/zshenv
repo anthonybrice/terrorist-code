@@ -13,7 +13,7 @@ fi
 
 export MANPATH="/usr/local/opt/man-db/lib/share/man:/usr/local/opt/coreutils/libexec/gnuman:/usr/local/opt/bash/share/man:/usr/local/opt/make/libexec/share/man:/usr/share/man:$MANPATH"
 
-export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/opt/man-db/libexec/bin:/usr/local/opt/git/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:/usr/local/opt/bash/bin:/usr/local/opt/make/libexec/gnubin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/opt/man-db/libexec/bin:/usr/local/opt/git/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:/usr/local/opt/bash/bin:/usr/local/opt/make/libexec/gnubin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 typeset -gU cdpath fpath mailpath manpath path
 
 export DEVDB_HOST=devdb.db.cj.com
@@ -22,6 +22,8 @@ export DEVDB_PORT=1521
 export DEVDB_SID=devdb
 export DEVDB_USER=spud
 export BUILD_USER=spud
+
+alias gcc="gcc-9"
 
 # what is this for
 #export cj_softwareHome=$HOME/cj-projects/software
