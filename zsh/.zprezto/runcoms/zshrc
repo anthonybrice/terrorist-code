@@ -24,7 +24,7 @@ fi
 
 alias ls='ls --color=auto'
 alias grep='ggrep --color=auto'
-# alias man='_() { echo $1; man -M $(brew --prefix)/opt/coreutils/libexec/gnuman $1 1>/dev/null 2>&1;  if [ "$?" -eq 0 ]; then man -M $(brew --prefix)/opt/coreutils/libexec/gnuman $1; else man $1; fi }; _'
+#alias man='_() { echo $1; man -M $(brew --prefix)/opt/coreutils/libexec/gnuman $1 1>/dev/null 2>&1;  if [ "$?" -eq 0 ]; then man -M $(brew --prefix)/opt/coreutils/libexec/gnuman $1; else man $1; fi }; _'
 
 alias dbstart='nohup VBoxHeadless --startvm "Oracle11g32" &> /dev/null &'
 alias dbstop='VBoxManage controlvm Oracle11g32 poweroff'
@@ -34,6 +34,9 @@ alias mci='mvn clean install -T 1C -Ddelta.skip=true -Dqunit.numThreads=8'
 alias qb='mvn clean install -T 1C -Ddelta.skip=true -Dcleanup.skip=true -Dqunit.numThreads=8 -DskipTests -Dtablespaces.skip=true -Dgulp.task=min'
 alias qqb='mvn install -T 1C -Ddelta.skip=true -Dcleanup.skip=true -Dqunit.numThreads=8 -DskipTests -Dtablespaces.skip=true -Dgulp.task=min'
 alias stow='stow --dotfiles'
+
+export MANOPT="--no-justification"
+export MANWIDTH="72"
 
 function chpwd() {
     emulate -L zsh
