@@ -7,6 +7,7 @@
   <key>ProgramArguments</key>
   <array>
     <string>caffeinate</string>
+    <string>-d</string>
   </array>
   <key>RunAtLoad</key>
   <true/>

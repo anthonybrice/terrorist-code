@@ -352,6 +352,11 @@ you should place your code here."
   (define-key key-translation-map (kbd "<s-mouse-1>") (kbd "<mouse-2>"))
 
   (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+
+  (add-hook 'spacemacs-buffer-mode-hook
+            (lambda () (set (make-local-variable
+                             'mouse-1-click-follows-link)
+                            nil)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
