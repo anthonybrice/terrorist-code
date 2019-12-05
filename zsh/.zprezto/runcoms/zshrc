@@ -23,16 +23,7 @@ fi
 # Customize to your needs...
 
 alias ls='ls --color=auto'
-alias grep='ggrep --color=auto'
-#alias man='_() { echo $1; man -M $(brew --prefix)/opt/coreutils/libexec/gnuman $1 1>/dev/null 2>&1;  if [ "$?" -eq 0 ]; then man -M $(brew --prefix)/opt/coreutils/libexec/gnuman $1; else man $1; fi }; _'
-
-alias dbstart='nohup VBoxHeadless --startvm "Oracle11g32" &> /dev/null &'
-alias dbstop='VBoxManage controlvm Oracle11g32 poweroff'
-alias ll='ls -la'
-alias main='cd "$PROJECTS_DIR/main"'
-alias mci='mvn clean install -T 1C -Ddelta.skip=true -Dqunit.numThreads=8'
-alias qb='mvn clean install -T 1C -Ddelta.skip=true -Dcleanup.skip=true -Dqunit.numThreads=8 -DskipTests -Dtablespaces.skip=true -Dgulp.task=min'
-alias qqb='mvn install -T 1C -Ddelta.skip=true -Dcleanup.skip=true -Dqunit.numThreads=8 -DskipTests -Dtablespaces.skip=true -Dgulp.task=min'
+alias grep='grep --color=auto'
 alias stow='stow --dotfiles'
 
 export MANOPT="--no-justification"
@@ -53,7 +44,7 @@ compinit
 # End of lines added by compinstall
 
 # enable aws completions
-source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
+#source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
 
 source $HOME/.zprezto/modules/syntax-highlighting/external/zsh-syntax-highlighting.zsh
 
@@ -63,11 +54,17 @@ for k in "${(@k)ZSH_HIGHLIGHT_STYLES}"; do
     ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=green/fg=red,bold}
 done
 
+unsetopt sharehistory
+
 abrice-upgrade() {
+    echo "Updating nix packages"
+    echo "<===================>"
+    nix-env -u
+    echo
+
     echo "Updating brew packages"
     echo "<====================>"
     brew update && brew upgrade
-
     echo
 
     echo "Updating global npm packages"
