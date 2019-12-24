@@ -363,6 +363,15 @@ you should place your code here."
                              'mouse-1-click-follows-link)
                             nil)))
   ;; (add-hook 'haskell-mode-hook 'intero-mode)
+
+  ;; default in spacemacs is 80000
+  (setq undo-limit 800000)
+
+  ;; default in spacemacs is 120000
+  (setq undo-strong-limit 12000000)
+
+  ;; default in spacemacs is 12000000
+  (setq undo-outer-limit 120000000)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

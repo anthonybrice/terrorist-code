@@ -22,7 +22,7 @@ fi
 
 # Customize to your needs...
 
-alias ls='ls --color=auto'
+alias ls='ls --color=auto -h --group-directories-first'
 alias grep='grep --color=auto'
 alias stow='stow --dotfiles'
 
@@ -44,7 +44,7 @@ compinit
 # End of lines added by compinstall
 
 # enable aws completions
-#source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
+source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
 
 source $HOME/.zprezto/modules/syntax-highlighting/external/zsh-syntax-highlighting.zsh
 
@@ -120,7 +120,7 @@ aws-provisioner() {
 }
 
 aws-end-session() {
-  eval $(env | sed -En 's/^(AWS_[^=]*)=.*$/unset \1/p')
+    unset $(bash -c 'echo ${!AWS@}')
 }
 
 function aws-all() {
@@ -130,7 +130,14 @@ function aws-all() {
     fi
 
     aws-developer 114272735376 $1
-    aws-get-url.js
+
+    rm -f $HOME/.aws/environment
+    touch $HOME/.aws/environment
+    echo "export AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID >> $HOME/.aws/environment
+    echo "export AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY >> $HOME/.aws/environment
+    echo "export AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN >> $HOME/.aws/environment
+
+    open $(aws-get-url.js)
 }
 
 export NVM_DIR="$HOME/.nvm"
