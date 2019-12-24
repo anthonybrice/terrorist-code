@@ -12,18 +12,20 @@ if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) \
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
-if [ -e /Users/abrice/.nix-profile/etc/profile.d/nix.sh ]; then
-    . /Users/abrice/.nix-profile/etc/profile.d/nix.sh;
-fi
-
-export MANPATH="$HOME/.nix-profile/share/man:/usr/local/opt/man-db/lib/share/man:/usr/local/opt/coreutils/libexec/gnuman:/usr/local/opt/bash/share/man:/usr/local/opt/make/libexec/share/man:/usr/share/man:$MANPATH:$HOME/.npm-global/share/man"
+manpath=(
+    $HOME/.npm-global/share/man
+    /usr/local/opt/man-db/lib/share/man
+    /usr/local/opt/coreutils/libexec/gnuman
+    /usr/local/opt/bash/share/man
+    /usr/local/opt/make/libexec/share/man
+    /usr/share/man
+)
 
 path=(
     $HOME/bin
     $HOME/.local/bin
     $HOME/.cargo/bin
     $HOME/.npm-global/bin
-    $HOME/.nix-profile/bin
     /Library/TeX/texbin/
     /usr/local/opt/man-db/libexec/bin
     /usr/local/opt/findutils/libexec/gnubin
@@ -41,20 +43,9 @@ path=(
 
 typeset -gU cdpath fpath mailpath manpath path
 export path
+export manpath
 
-export DEVDB_HOST=devdb.db.cj.com
-export DEVDB_USERNAME=spud
-export DEVDB_PORT=1521
-export DEVDB_SID=devdb
-export DEVDB_USER=spud
-export BUILD_USER=spud
-
-# what is this for
-#export cj_softwareHome=$HOME/cj-projects/software
-
-export MAVEN_OPTS="-Xmx8G -Xss3m -XX:ReservedCodeCacheSize=256m"
-
-#export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 
+if [[ -e $HOME/.cj/environment ]]; then source $HOME/.cj/environment; fi
 if [[ -e $HOME/.aws/environment ]]; then source $HOME/.aws/environment; fi

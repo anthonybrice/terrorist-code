@@ -5,16 +5,6 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-# zmodload zsh/datetime
-# setopt PROMPT_SUBST
-# PS4='+$EPOCHREALTIME %N:%i> '
-
-# logfile=$(mktemp zsh_profile.XXXXXXXX)
-# echo "Logging to $logfile"
-# exec 3>&2 2>$logfile
-
-#setopt XTRACE
-
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -57,11 +47,6 @@ done
 unsetopt sharehistory
 
 abrice-upgrade() {
-    echo "Updating nix packages"
-    echo "<===================>"
-    nix-env -u
-    echo
-
     echo "Updating brew packages"
     echo "<====================>"
     brew update && brew upgrade
@@ -73,59 +58,41 @@ abrice-upgrade() {
     echo "Done"
 }
 
-aws-developer() {
-  local account="$1"
-  local role="arn:aws:iam::${account}:role/cjorganization/CJDeveloperAccessRole"
-  local mfa_serial="arn:aws:iam::597974043991:mfa/abrice@cj.com"
-  local mfa_token="$2"
-
-  eval "$(aws sts assume-role \
-    --role-arn "$role" \
-    --role-session-name "bootstrap$$" \
-    --serial-number "$mfa_serial" \
-    --token-code "$mfa_token" \
-    --duration-seconds 43200 \
-    --query \
-       'Credentials |
-          join (`\n`,
-           values({
-             AccessKeyId: join(``, [`export AWS_ACCESS_KEY_ID=`,AccessKeyId]),
-             SecretAccessKey:join(``, [`export AWS_SECRET_ACCESS_KEY=`,SecretAccessKey]),
-             SessionToken:join(``, [`export AWS_SESSION_TOKEN=`,SessionToken])
-           }))' \
-    --output text)"
-}
-
-aws-provisioner() {
-  local account="$1"
-  local role="arn:aws:iam::${account}:role/cjorganization/CJProvisionerAccessRole"
-  local mfa_serial="GADT00008872"
-  local mfa_token="$2"
-
-  eval "$(aws sts assume-role \
-    --role-arn "$role" \
-    --role-session-name "bootstrap$$" \
-    --serial-number "$mfa_serial" \
-    --token-code "$mfa_token" \
-    --duration-seconds 3600 \
-    --query \
-       'Credentials |
-          join (`\n`,
-           values({
-             AccessKeyId: join(``, [`export AWS_ACCESS_KEY_ID=`,AccessKeyId]),
-             SecretAccessKey:join(``, [`export AWS_SECRET_ACCESS_KEY=`,SecretAccessKey]),
-             SessionToken:join(``, [`export AWS_SESSION_TOKEN=`,SessionToken])
-           }))' \
-    --output text)"
-}
-
 aws-end-session() {
     unset $(bash -c 'echo ${!AWS@}')
+    rm -f $HOME/.aws/environment
 }
 
-function aws-all() {
+aws-all() {
+    local function aws-sts() {
+        local account=$1
+        local role=arn:aws:iam::${account}:role/cjorganization/CJDeveloperAccessRole
+        local mfa_serial=arn:aws:iam::597974043991:mfa/abrice@cj.com
+        local mfa_token=$2
+
+        aws sts assume-role \
+            --role-arn "$role" \
+            --role-session-name "bootstrap$$" \
+            --serial-number "$mfa_serial" \
+            --token-code "$mfa_token" \
+            --duration-seconds 43200 \
+            --query \
+            'Credentials |
+            join (`\n`,
+            values({
+              AccessKeyId: join(``, [`export AWS_ACCESS_KEY_ID=`,AccessKeyId]),
+              SecretAccessKey:join(``, [`export AWS_SECRET_ACCESS_KEY=`,SecretAccessKey]),
+              SessionToken:join(``, [`export AWS_SESSION_TOKEN=`,SessionToken])
+            }))' \
+            --output text
+    }
+
+    local function aws-developer() {
+        eval $(aws-sts $1 $2)
+    }
+
     if [[ -z "$1" ]]; then
-        echo "Usage: aws-all <duo mobile aws key>"
+        echo "usage: aws-all <duo mobile aws key>"
         return 1
     fi
 
@@ -139,10 +106,3 @@ function aws-all() {
 
     open $(aws-get-url.js)
 }
-
-export NVM_DIR="$HOME/.nvm"
-# [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-# [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
-
-# unsetopt XTRACE
-# exec 2>&3 3>&-
