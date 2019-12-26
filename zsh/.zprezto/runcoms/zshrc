@@ -12,7 +12,7 @@ fi
 
 # Customize to your needs...
 
-alias ls='ls --color=auto -h --group-directories-first'
+alias ls='ls --color=auto --human-readable --group-directories-first'
 alias grep='grep --color=auto'
 alias stow='stow --dotfiles'
 
@@ -33,8 +33,8 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-# enable aws completions
-source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
+# enable completions
+source /usr/local/share/zsh/site-functions/*
 
 source $HOME/.zprezto/modules/syntax-highlighting/external/zsh-syntax-highlighting.zsh
 
@@ -88,7 +88,7 @@ aws-all() {
     }
 
     local function aws-developer() {
-        eval $(aws-sts $1 $2)
+        echo "$(aws-sts $1 $2)"
     }
 
     if [[ -z "$1" ]]; then
@@ -96,13 +96,8 @@ aws-all() {
         return 1
     fi
 
-    aws-developer 114272735376 $1
-
-    rm -f $HOME/.aws/environment
-    touch $HOME/.aws/environment
-    echo "export AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID >> $HOME/.aws/environment
-    echo "export AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY >> $HOME/.aws/environment
-    echo "export AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN >> $HOME/.aws/environment
+    aws-developer 114272735376 $1 > $HOME/.aws/environment
+    source $HOME/.aws/environment
 
     open $(aws-get-url.js)
 }
