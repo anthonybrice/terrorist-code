@@ -14,10 +14,6 @@ fi
 
 alias ls='ls --color=auto --human-readable --group-directories-first'
 alias grep='grep --color=auto'
-alias stow='stow --dotfiles'
-
-export MANOPT="--no-justification"
-export MANWIDTH="72"
 
 function chpwd() {
     emulate -L zsh
@@ -47,23 +43,40 @@ done
 unsetopt sharehistory
 
 abrice-upgrade() {
-    echo "Updating brew packages"
+    echo Updating brew packages
     echo "<====================>"
     brew update && brew upgrade
     echo
 
-    echo "Updating global npm packages"
+    echo Updating global npm packages
     echo "<==========================>"
     npm update -g --depth=0
-    echo "Done"
+    echo Done
+
+    echo Updating global nix packages
+    echo "<==========================>"
+    nix-env -u
+    echo Done
+}
+
+regify() {
+    prettier --single-quote --write $1
+}
+
+unregify() {
+    prettier --single-quote --no-semi --write $1
 }
 
 aws-end-session() {
-    unset $(bash -c 'echo ${!AWS@}')
+    unset $(bash -c 'echo ${!AWS_@}')
     rm -f $HOME/.aws/environment
 }
 
-aws-all() {
+aws-source() {
+    source $HOME/.aws/environment
+}
+
+aws-auth() {
     local function aws-sts() {
         local account=$1
         local role=arn:aws:iam::${account}:role/cjorganization/CJDeveloperAccessRole
@@ -87,17 +100,17 @@ aws-all() {
             --output text
     }
 
-    local function aws-developer() {
-        echo "$(aws-sts $1 $2)"
-    }
-
-    if [[ -z "$1" ]]; then
-        echo "usage: aws-all <duo mobile aws key>"
+    if [[ -z $1 || $1 = "-h" || $1 = "--help" ]]; then
+        echo "usage: $0 [prod] <duo mobile aws key>"
         return 1
     fi
 
-    aws-developer 114272735376 $1 > $HOME/.aws/environment
-    source $HOME/.aws/environment
+    role=114272735376
+    if [[ $1 = "prod" ]]; then role=838594874642; fi
+
+    aws-end-session
+    aws-sts $role $argv[-1] > $HOME/.aws/environment
+    aws-source
 
     open $(aws-get-url.js)
 }

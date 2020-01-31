@@ -13,6 +13,15 @@ if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) \
 fi
 
 #
+# Nix
+#
+
+if [[ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]]; then
+    source $HOME/.nix-profile/etc/profile.d/nix.sh
+fi
+
+
+#
 # Browser
 #
 
@@ -42,6 +51,8 @@ export PAGER='less'
 
 manpath=(
     $HOME/.npm-global/share/man
+    $HOME/.nix-profile/share/man
+    /usr/local/opt/curl/share/man
     /usr/local/opt/grep/share/man
     /usr/local/opt/man-db/lib/share/man
     /usr/local/opt/findutils/share/man
@@ -65,7 +76,9 @@ path=(
     $HOME/.local/bin
     $HOME/.cargo/bin
     $HOME/.npm-global/bin
+    $HOME/.nix-profile/bin
     /Library/TeX/texbin/
+    /usr/local/opt/curl/bin
     /usr/local/opt/grep/libexec/gnubin
     /usr/local/opt/man-db/libexec/bin
     /usr/local/opt/findutils/libexec/gnubin
@@ -94,10 +107,8 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 # Less
 #
 
-# Set the default Less options.
-# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
-# Remove -X and -F (exit if the content fits on one screen) to enable it.
-export LESS='-F -g -i -M -R -S -w -z-4'
+export LESS="--quit-if-one-screen --hilite-search --ignore-case --LONG-PROMPT \
+    --RAW-CONTROL-CHARS --chop-long-lines --hilite-unread --window=-4"
 
 # Set the Less input preprocessor.
 # Try both `lesspipe` and `lesspipe.sh` as either might exist on a system.
