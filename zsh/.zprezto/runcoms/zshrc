@@ -51,7 +51,7 @@ abrice-upgrade() {
     echo Updating global npm packages
     echo "<==========================>"
     npm update -g --depth=0
-    echo Done
+    echo
 
     echo Updating global nix packages
     echo "<==========================>"
@@ -114,3 +114,7 @@ aws-auth() {
 
     open $(aws-get-url.js)
 }
+
+# dumbass cnvr vpn
+alias 'vpnstart'='launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
+alias 'vpnstop'='launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
