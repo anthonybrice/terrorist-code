@@ -32,48 +32,27 @@ values."
    dotspacemacs-configuration-layers
    '(
      typescript
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
      helm
-
      auto-completion
-
-     (haskell :variables haskell-completion-backend 'dante)
-     ;;haskell
-     ;; better-defaults
+     haskell
      emacs-lisp
      git
      (markdown :variables markdown-live-preview-engine 'vmd)
-
      org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;;
-     ;; spell-checking
      syntax-checking
-     ;; version-control
-
-     ;; my packs
      shell-scripts
      csv
      colors
      semantic
      cscope
      elm
-     ;; haskell
      html
      sql
-     ;;pandoc
      javascript
      yaml
      purescript
      rust
      latex
-     ;react
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -81,9 +60,6 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
-
-     dante
-     ;;intero
      rjsx-mode
      )
    ;; A list of packages that cannot be updated.
@@ -219,7 +195,7 @@ values."
    ;; auto-save the file in-place, `cache' to auto-save the file to another
    ;; file stored in the cache directory and `nil' to disable auto-saving.
    ;; (default 'cache)
-   dotspacemacs-auto-save-file-location 'cache
+   dotspacemacs-auto-save-file-location 'original
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 5
    ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
@@ -323,6 +299,8 @@ values."
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
    dotspacemacs-whitespace-cleanup 'changed
+
+   dotspacemacs-mode-line-theme 'spacemacs
    ))
 
 (defun dotspacemacs/user-init ()
@@ -342,7 +320,6 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (intero-global-mode t)
   (setq js2-strict-missing-semi-warning nil)
   (setq js-indent-level 2)
   (spacemacs/toggle-indent-guide-globally-on)
@@ -363,16 +340,12 @@ you should place your code here."
             (lambda () (set (make-local-variable
                              'mouse-1-click-follows-link)
                             nil)))
-  ;; (add-hook 'haskell-mode-hook 'intero-mode)
 
-  ;; default in spacemacs is 80000
   (setq undo-limit 800000)
-
-  ;; default in spacemacs is 120000
   (setq undo-strong-limit 12000000)
-
-  ;; default in spacemacs is 12000000
   (setq undo-outer-limit 120000000)
+
+  (setq-default truncate-lines t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -391,3 +364,23 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F")))))
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (treemacs-persp magit-section flycheck-elsa company-auctex auctex-latexmk auctex dante lcr powerline spinner hydra lv parent-mode projectile flx highlight smartparens iedit anzu evil goto-chg undo-tree f s bind-map bind-key packed helm avy helm-core async popup tide typescript-mode js3-mode toml-mode racer flycheck-rust cargo rust-mode rjsx-mode vmd-mode yaml-mode web-mode web-beautify tagedit stickyfunc-enhance srefactor sql-indent smeargle slim-mode scss-mode sass-mode rainbow-mode rainbow-identifiers pug-mode psci purescript-mode psc-ide pandoc-mode ox-pandoc ht orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero insert-shebang htmlize hlint-refactor hindent helm-hoogle helm-gitignore helm-css-scss helm-cscope xcscope helm-company helm-c-yasnippet haskell-snippets haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-haskell flycheck-elm flycheck fish-mode evil-magit magit transient git-commit with-editor emmet-mode elm-mode reformatter csv-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-shell company-ghci company-ghc ghc haskell-mode company-cabal company color-identifiers-mode coffee-mode cmm-mode auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete zenburn-theme ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F")))))
+)

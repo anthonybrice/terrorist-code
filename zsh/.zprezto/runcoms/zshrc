@@ -106,7 +106,8 @@ aws-auth() {
     fi
 
     role=114272735376
-    if [[ $1 = "prod" ]]; then role=838594874642; fi
+    if [[ $1 = "prod" ]]; then role=838594874642
+    elif [[ $1 = "auth" ]]; then role=828260463931; fi
 
     aws-end-session
     aws-sts $role $argv[-1] > $HOME/.aws/environment
@@ -118,3 +119,4 @@ aws-auth() {
 # dumbass cnvr vpn
 alias 'vpnstart'='launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
 alias 'vpnstop'='launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
+alias stack-watch="ghcid --command='stack repl' --allow-eval"
