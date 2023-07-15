@@ -1,4 +1,3 @@
-
 #
 # Defines environment variables.
 #
@@ -10,14 +9,6 @@
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) \
           && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
-fi
-
-#
-# Nix
-#
-
-if [[ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]]; then
-    source $HOME/.nix-profile/etc/profile.d/nix.sh
 fi
 
 
@@ -41,7 +32,7 @@ fi
 # Editors
 #
 
-export EDITOR='emacs'
+export EDITOR='nano'
 export VISUAL='nano'
 export PAGER='less'
 
@@ -77,11 +68,15 @@ path=(
     $HOME/.cargo/bin
     $HOME/.npm-global/bin
     $HOME/.nix-profile/bin
+    $HOME/Library/Python/3.9/bin
+    "$HOME/Library/Application Support/Coursier/bin"
     /Library/TeX/texbin/
+    /usr/local/opt/libressl/bin
     /usr/local/opt/curl/bin
     /usr/local/opt/grep/libexec/gnubin
     /usr/local/opt/man-db/libexec/bin
     /usr/local/opt/findutils/libexec/gnubin
+    /usr/local/opt/gnu-getopt/bin
     /usr/local/opt/coreutils/libexec/gnubin
     /usr/local/opt/gnu-tar/libexec/gnubin
     /usr/local/opt/bash/bin
@@ -98,12 +93,6 @@ export path
 typeset -gU cdpath fpath mailpath manpath path
 
 #
-# Java
-#
-
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
-
-#
 # Less
 #
 
@@ -115,15 +104,3 @@ export LESS="--quit-if-one-screen --hilite-search --ignore-case --LONG-PROMPT \
 if (( $#commands[(i)lesspipe(|.sh)] )); then
     export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
 fi
-
-#
-# Cj
-#
-
-if [[ -e $HOME/.cj/environment ]]; then source $HOME/.cj/environment; fi
-
-#
-# Aws
-#
-
-if [[ -e $HOME/.aws/environment ]]; then source $HOME/.aws/environment; fi

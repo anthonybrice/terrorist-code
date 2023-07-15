@@ -12,6 +12,10 @@ fi
 
 # Customize to your needs...
 
+eval "$(direnv hook zsh)"
+
+alias idea='open -na "IntelliJ IDEA.app" --args'
+
 alias ls='ls --color=auto --human-readable --group-directories-first'
 alias grep='grep --color=auto'
 
@@ -29,9 +33,6 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-# enable completions
-source /usr/local/share/zsh/site-functions/*
-
 source $HOME/.zprezto/modules/syntax-highlighting/external/zsh-syntax-highlighting.zsh
 
 for k in "${(@k)ZSH_HIGHLIGHT_STYLES}"; do
@@ -40,83 +41,16 @@ for k in "${(@k)ZSH_HIGHLIGHT_STYLES}"; do
     ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=green/fg=red,bold}
 done
 
-unsetopt sharehistory
+# unsetopt sharehistory
 
-abrice-upgrade() {
-    echo Updating brew packages
-    echo "<====================>"
-    brew update && brew upgrade
-    echo
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-    echo Updating global npm packages
-    echo "<==========================>"
-    npm update -g --depth=0
-    echo
+fpath=(~/.zsh $fpath)
 
-    echo Updating global nix packages
-    echo "<==========================>"
-    nix-env -u
-    echo Done
-}
+precmd() { precmd() { print "" } }
 
-regify() {
-    prettier --single-quote --write $1
-}
-
-unregify() {
-    prettier --single-quote --no-semi --write $1
-}
-
-aws-end-session() {
-    unset $(bash -c 'echo ${!AWS_@}')
-    rm -f $HOME/.aws/environment
-}
-
-aws-source() {
-    source $HOME/.aws/environment
-}
-
-aws-auth() {
-    local function aws-sts() {
-        local account=$1
-        local role=arn:aws:iam::${account}:role/cjorganization/CJDeveloperAccessRole
-        local mfa_serial=arn:aws:iam::597974043991:mfa/abrice@cj.com
-        local mfa_token=$2
-
-        aws sts assume-role \
-            --role-arn "$role" \
-            --role-session-name "bootstrap$$" \
-            --serial-number "$mfa_serial" \
-            --token-code "$mfa_token" \
-            --duration-seconds 43200 \
-            --query \
-            'Credentials |
-            join (`\n`,
-            values({
-              AccessKeyId: join(``, [`export AWS_ACCESS_KEY_ID=`,AccessKeyId]),
-              SecretAccessKey:join(``, [`export AWS_SECRET_ACCESS_KEY=`,SecretAccessKey]),
-              SessionToken:join(``, [`export AWS_SESSION_TOKEN=`,SessionToken])
-            }))' \
-            --output text
-    }
-
-    if [[ -z $1 || $1 = "-h" || $1 = "--help" ]]; then
-        echo "usage: $0 [prod] <duo mobile aws key>"
-        return 1
-    fi
-
-    role=114272735376
-    if [[ $1 = "prod" ]]; then role=838594874642
-    elif [[ $1 = "auth" ]]; then role=828260463931; fi
-
-    aws-end-session
-    aws-sts $role $argv[-1] > $HOME/.aws/environment
-    aws-source
-
-    open $(aws-get-url.js)
-}
-
-# dumbass cnvr vpn
-alias 'vpnstart'='launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
-alias 'vpnstop'='launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
-alias stack-watch="ghcid --command='stack repl' --allow-eval"
+# fnm
+export PATH="/Users/antbrice1/Library/Application Support/fnm:$PATH"
+eval "`fnm env --use-on-cd`"
