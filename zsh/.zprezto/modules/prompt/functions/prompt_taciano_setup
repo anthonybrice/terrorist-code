@@ -90,8 +90,10 @@ function prompt_steeef_setup {
   # Set python-info parameters.
   zstyle ':prezto:module:python:info:virtualenv' format '(%v)'
 
+  userAndHost=${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f in "}
+
   # Define prompts.
-  PROMPT="${_prompt_steeef_colors[3]}%n%f in ${_prompt_steeef_colors[5]}%~%f at %F{166}%D{%a %b %f %L:%M:%S %p} "'${vcs_info_msg_0_}'"
+  PROMPT="${userAndHost}${_prompt_steeef_colors[5]}%~%f at %F{166}%D{%a %b %f %L:%M:%S %p}%f "'${vcs_info_msg_0_}'"
 "%B%F{1}❯%F{3}❯%F{2}❯%f%b' '
   RPROMPT=''
 }

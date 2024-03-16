@@ -10,6 +10,13 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+if test -n "$KITTY_INSTALLATION_DIR"; then
+    export KITTY_SHELL_INTEGRATION="enabled"
+    autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+    kitty-integration
+    unfunction kitty-integration
+fi
+
 # Customize to your needs...
 
 eval "$(direnv hook zsh)"
@@ -26,13 +33,6 @@ function chpwd() {
 
 zstyle ':completion:*' rehash true
 
-# The following lines were added by compinstall
-zstyle :compinstall filename '/Users/abrice/.zshrc'
-
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-
 source $HOME/.zprezto/modules/syntax-highlighting/external/zsh-syntax-highlighting.zsh
 
 for k in "${(@k)ZSH_HIGHLIGHT_STYLES}"; do
@@ -41,11 +41,8 @@ for k in "${(@k)ZSH_HIGHLIGHT_STYLES}"; do
     ZSH_HIGHLIGHT_STYLES[$k]=${ZSH_HIGHLIGHT_STYLES[$k]:gs/fg=green/fg=red,bold}
 done
 
-# unsetopt sharehistory
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+# good terminal for kitty
+export TERM=xterm-256color
 
 fpath=(~/.zsh $fpath)
 
@@ -54,3 +51,25 @@ precmd() { precmd() { print "" } }
 # fnm
 export PATH="/Users/antbrice1/Library/Application Support/fnm:$PATH"
 eval "`fnm env --use-on-cd`"
+
+# The following lines were added by compinstall
+zstyle :compinstall filename '/Users/abrice/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+source <(kubectl completion zsh) && compdef _kubectl kubectl
+. <(timoni completion zsh) && compdef _timoni timoni
+
+. "$HOME/.asdf/asdf.sh"
+# append completions to fpath
+fpath=(${ASDF_DIR}/completions $fpath)
+
+[ -f "/Users/antbrice1/.ghcup/env" ] && source "/Users/antbrice1/.ghcup/env" # ghcup-env
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

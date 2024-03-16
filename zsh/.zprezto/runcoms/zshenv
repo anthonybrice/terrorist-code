@@ -33,8 +33,7 @@ fi
 #
 
 export EDITOR='nano'
-export VISUAL='nano'
-export PAGER='less'
+export VISUAL='code'
 
 #
 # Man
@@ -63,6 +62,9 @@ export manpath
 #
 
 path=(
+    $HOME/bin/instantclient
+    /usr/local/texlive/2023/bin/universal-darwin
+    $HOME/.bin
     $HOME/bin
     $HOME/.local/bin
     $HOME/.cargo/bin
@@ -96,6 +98,7 @@ typeset -gU cdpath fpath mailpath manpath path
 # Less
 #
 
+export PAGER='less'
 export LESS="--quit-if-one-screen --hilite-search --ignore-case --LONG-PROMPT \
     --RAW-CONTROL-CHARS --chop-long-lines --hilite-unread --window=-4"
 
